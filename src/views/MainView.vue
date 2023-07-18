@@ -1,19 +1,20 @@
 <template>
-    <div class="bg-blue-500 h-screen flex items-center justify-center">
-        <button @click="logout">Wyloguj się</button>
-    </div>
+  <div>
+    <NavbarComponent />
+    <test />
+    <!-- Dodaj inne elementy zawartości strony tutaj -->
+  </div>
 </template>
 
 <script>
-export default {
-  methods: {
-    logout() {
-      // Czyszczenie tokenu dostępu lub innych danych w localStorage
-      localStorage.clear();
+import NavbarComponent from "@/components/NavbarComponent.vue"; // Ścieżka do twojego komponentu NavbarComponent
+import test from "@/components/test.vue"; // Ścieżka do twojego komponentu NavbarComponent
 
-      // Przekierowanie do widoku logowania
-      this.$router.push('/');
-    }
-  }
+export default {
+  components: {
+    NavbarComponent,
+    test
+  },
+  // Dodaj inne opcje widoku, jeśli są potrzebne
 };
 </script>
