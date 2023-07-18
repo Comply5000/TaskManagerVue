@@ -3,6 +3,9 @@ import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import MainView from '../views/MainView.vue'
 
+import test from "@/components/test.vue";
+import test2 from "@/components/test2.vue";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -21,7 +24,11 @@ const router = createRouter({
       path: '/main',
       name: 'main',
       component: MainView,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
+      children: [
+        { path: "", component: test }, // Przykładowy podkomponent
+        { path: "t2", component: test2 }, // Inny podkomponent// Jeszcze inny podkomponent
+      ],
     },
   ]
 })

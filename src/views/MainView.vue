@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavbarComponent />
-    <test />
+    <router-view></router-view>
     <!-- Dodaj inne elementy zawartości strony tutaj -->
   </div>
 </template>
