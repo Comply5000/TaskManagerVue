@@ -30,18 +30,30 @@
               </svg>
             </button>
           </div>
-          <select data-te-select-init>
-  <option value="" hidden selected></option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
-  <option value="4">Four</option>
-  <option value="5">Five</option>
-  <option value="6">Six</option>
-  <option value="7">Seven</option>
-  <option value="8">Eight</option>
-</select>
-<label data-te-select-label-ref>Example label</label>
+          <div class="flex items-center justify-center">
+            <!-- Status -->
+            <select
+              v-if="taskStatus.length"
+              v-model="selectedStatus"
+              @change="fetchData(1)"
+              class="w-50 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option value="null" selected>Status</option>
+              <option v-for="s in taskStatus" :key="s.id" :value="s.id">{{ s.name }}</option>
+            </select>
+            <div v-else>Loading...</div>
+            <!-- Kategorie -->
+            <select
+              v-if="categories.length"
+              v-model="selectedCategory"
+              @change="fetchData(1)"
+              class="ml-4 w-50 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option value="null" selected>Categories</option>
+              <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+            </select>
+            <div v-else>Loading...</div>
+          </div>
       </div>
       <div class="container mx-auto">
         <div class="overflow-x-auto">
@@ -162,18 +174,66 @@
         totalPages: 1,
         pageSize: 10, // Domyślna liczba elementów na stronie
         pageOptions: [10, 25, 50, 100], 
-        searchQuery: null
+        searchQuery: null,
+
+        taskStatus: [], // Tablica do przechowywania danych z endpointu
+        selectedStatus: null,
+
+        categories: [],
+        selectedCategory: null,
       };
     },
     watch: {
-    searchQuery(newValue) {
-      if (newValue === "") {
-        // Wykonaj dowolne operacje lub funkcje, które chcesz uruchomić, gdy wartość searchQuery będzie pusta.
-          this.fetchData(1)
+      searchQuery(newValue) {
+        if (newValue === "") {
+          // Wykonaj dowolne operacje lub funkcje, które chcesz uruchomić, gdy wartość searchQuery będzie pusta.
+            this.fetchData(1)
         }
+      },
+      selectedStatus(newValue) {
+        if (newValue === "null") {
+          this.selectedStatus = null;
+          this.fetchData(1)
+        } 
+      },
+      selectedCategory(newValue) {
+        if (newValue === "null") {
+          this.selectedCategory = null;
+          this.fetchData(1)
+        } 
       },
     },
     methods: {
+      fetchCategories(){
+        const token = localStorage.getItem('jwt');
+
+        axios.get(`/todo-task-categories`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(response => {
+          this.categories = response.data.todoTaskCategories;
+        })
+        .catch(error => {
+          console.error('Błąd pobierania danych:', error);
+        });
+      },
+      fetchStatus(){
+        const token = localStorage.getItem('jwt');
+
+        axios.get(`/enums/todo-task-status`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(response => {
+          this.taskStatus = response.data;
+        })
+        .catch(error => {
+          console.error('Błąd pobierania danych:', error);
+        });
+      },
       fetchData(pageNumber) {
         const token = localStorage.getItem('jwt');
   
@@ -181,7 +241,9 @@
           params: {
             pageNumber: pageNumber,
             pageSize: this.pageSize,
-            search: this.searchQuery
+            search: this.searchQuery,
+            categoryId: this.selectedCategory,
+            status: this.selectedStatus
           },
           headers: {
             'Authorization': `Bearer ${token}`
@@ -236,6 +298,8 @@
     },
     mounted() {
       this.fetchData(this.currentPage);
+      this.fetchStatus();
+      this.fetchCategories();
     },
   };
 </script>
