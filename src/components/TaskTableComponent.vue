@@ -1,34 +1,77 @@
 <template>
     <div class="bg-blue-500 min-h-screen py-8 overflow-y-auto">
+      <div class="mb-3">
+          <div class="relative mb-4 flex w-full flex-wrap items-stretch bg-white rounded-lg shadow-md max-w-md mx-auto">
+            <input
+              v-model="searchQuery"
+              type="search"
+              class="relative m-0 -mr-0.5 block w-[1px] min-w-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+              placeholder="Search"
+              aria-label="Search"
+              aria-describedby="button-addon1" />
+
+            <!-- Przycisk wyszukiwania -->
+            <button
+              @click="fetchData(1)"
+              class="relative z-[2] flex items-center focus:ring-0 rounded-r bg-gray-800 px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out"
+              type="button"
+              id="button-addon1"
+              data-te-ripple-init
+              data-te-ripple-color="light">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                class="h-5 w-5">
+                <path
+                  fill-rule="evenodd"
+                  d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                  clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+          <select data-te-select-init>
+  <option value="" hidden selected></option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+  <option value="4">Four</option>
+  <option value="5">Five</option>
+  <option value="6">Six</option>
+  <option value="7">Seven</option>
+  <option value="8">Eight</option>
+</select>
+<label data-te-select-label-ref>Example label</label>
+      </div>
       <div class="container mx-auto">
         <div class="overflow-x-auto">
           <div class="min-w-max">
             <div class="w-max mx-auto bg-white rounded-lg shadow-lg">
               <div class="overflow-hidden">
-                <table class="w-full text-left text-sm font-light">
+                <table class="w-full text-center text-sm font-light divide-gray-200">
                   <thead class="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
                     <tr>
-                      <th scope="col" class="px-6 py-4">Name</th>
-                      <th scope="col" class="px-6 py-4">Status</th>
-                      <th scope="col" class="px-6 py-4">Category</th>
-                      <th scope="col" class="px-6 py-4">Created At</th>
-                      <th scope="col" class="px-6 py-4">Deadline</th>
-                      <th scope="col" class="px-6 py-4">Last Modified At</th>
-                      <th scope="col" class="px-6 py-4">Action</th>
+                      <th scope="col" class="px-6 py-4 text-center">Name</th>
+                      <th scope="col" class="px-6 py-4 text-center">Status</th>
+                      <th scope="col" class="px-6 py-4 text-center">Category</th>
+                      <th scope="col" class="px-6 py-4 text-center">Deadline</th>
+                      <th scope="col" class="px-6 py-4 text-center">Created At</th>
+                      <th scope="col" class="px-6 py-4 text-center">Last Modified At</th>
+                      <th scope="col" class="px-6 py-4 text-center">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="task in tasks" :key="task.id" class="border-b bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
-                      <td class="whitespace-nowrap px-6 py-4 font-medium">{{ task.name }}</td>
+                      <td class="whitespace-nowrap px-6 py-4 font-medium text-center">{{ task.name }}</td>
                       <!-- Dodaj dynamiczne klasy w zależności od statusu -->
-                      <td :class="getStatusClass(task.status.id)">
+                      <td :class="getStatusClass(task.status.id)" class="text-center">
                         {{ task.status.name }}
                       </td>
-                      <td class="whitespace-nowrap px-6 py-4">{{ task.categoryName }}</td>
-                      <td class="whitespace-nowrap px-6 py-4">{{ formatDate(task.createdAt) }}</td>
-                      <td class="whitespace-nowrap px-6 py-4">{{ formatDate(task.deadline) }}</td>
-                      <td class="whitespace-nowrap px-6 py-4">{{ formatDate(task.lastModifiedAt) }}</td>
-                      <td class="whitespace-nowrap px-6 py-4">
+                      <td class="whitespace-nowrap px-6 py-4 text-center">{{ task.categoryName }}</td>
+                      <td class="whitespace-nowrap px-6 py-4 text-center">{{ formatDate(task.deadline) }}</td>
+                      <td class="whitespace-nowrap px-6 py-4 text-center">{{ formatDate(task.createdAt) }}</td>               
+                      <td class="whitespace-nowrap px-6 py-4 text-center">{{ formatDate(task.lastModifiedAt) }}</td>
+                      <td class="whitespace-nowrap px-6 py-4 text-center">
                         <div class="relative">
                           <button @click="showOptions = (showOptions === task.id ? null : task.id)" class="text-gray-400 hover:text-gray-600 focus:outline-none">
                             <svg
@@ -67,9 +110,9 @@
                                 :disabled="currentPage === 1"
                             >Previous</a>
                             </li>
-                            <li v-for="pageNumber in totalPages" :key="pageNumber" :aria-current="pageNumber === currentPage ? 'page' : null">
+                            <li v-for="pageNumber in totalPages" :key="pageNumber">
                             <a
-                                class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-black transition-all duration-300 hover:bg-gray-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+                            :class="['relative block rounded px-3 py-1.5 text-sm text-black transition-all duration-300 hover:bg-gray-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white', { 'bg-gray-400': pageNumber === currentPage }]"
                                 href="#"
                                 @click="goToPage(pageNumber)"
                             >{{ pageNumber }}</a>
@@ -102,10 +145,13 @@
         </div>
       </div>
     </div>
-  </template>
+</template>
   
 <script>
   import axios from '../../config.js';
+
+  import { Select, initTE } from "tw-elements";
+  initTE({ Select });
   
   export default {
     data() {
@@ -116,7 +162,16 @@
         totalPages: 1,
         pageSize: 10, // Domyślna liczba elementów na stronie
         pageOptions: [10, 25, 50, 100], 
+        searchQuery: null
       };
+    },
+    watch: {
+    searchQuery(newValue) {
+      if (newValue === "") {
+        // Wykonaj dowolne operacje lub funkcje, które chcesz uruchomić, gdy wartość searchQuery będzie pusta.
+          this.fetchData(1)
+        }
+      },
     },
     methods: {
       fetchData(pageNumber) {
@@ -126,6 +181,7 @@
           params: {
             pageNumber: pageNumber,
             pageSize: this.pageSize,
+            search: this.searchQuery
           },
           headers: {
             'Authorization': `Bearer ${token}`
@@ -134,6 +190,7 @@
         .then(response => {
           this.tasks = response.data.todoTasks.items;
           this.totalPages = response.data.todoTasks.totalPages;
+          this.currentPage = response.data.todoTasks.pageIndex;
         })
         .catch(error => {
           console.error('Błąd pobierania danych:', error);
@@ -179,7 +236,7 @@
     },
     mounted() {
       this.fetchData(this.currentPage);
-    }
+    },
   };
 </script>
 
