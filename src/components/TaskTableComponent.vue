@@ -32,11 +32,12 @@
           </div>
           <div class="flex items-center justify-center">
             <!-- Status -->
+            <label for="selectedStatus" class="text-gray-700 dark:text-white font-bold text-lg">Filters:</label>
             <select
               v-if="taskStatus.length"
               v-model="selectedStatus"
               @change="fetchData(1)"
-              class="w-50 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              class="ml-4 w-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option value="null" selected>Status</option>
               <option v-for="s in taskStatus" :key="s.id" :value="s.id">{{ s.name }}</option>
@@ -47,12 +48,48 @@
               v-if="categories.length"
               v-model="selectedCategory"
               @change="fetchData(1)"
-              class="ml-4 w-50 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              class="mr-4 ml-4 w-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option value="null" selected>Categories</option>
               <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
             </select>
             <div v-else>Loading...</div>
+          </div>
+          <div class="flex items-center justify-center">
+            <!-- Sofrowanie -->
+            <label for="selectedOrderBy" class="mt-4 text-gray-700 dark:text-white font-bold text-lg">Order by:</label>
+            <select
+              v-if="orderBy.length"
+              v-model="selectedOrderBy"
+              @change="fetchData(1)"
+              class="mr-4 mt-4 ml-4 w-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option v-for="o in orderBy" :key="o.id" :value="o.id">{{ o.name }}</option>
+            </select>
+            <div v-else>Loading...</div>
+            
+            <span class="mt-4 mr-2 text-gray-700 dark:text-white font-bold text-lg">Desc</span>
+            <label class="mt-4 relative inline-flex items-center cursor-pointer">
+              <input 
+              type="checkbox"
+              class="sr-only peer"
+              v-model="isOrderByDesc"
+              @change="fetchData(1)">
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-gray-600"></div>
+            </label>
+
+            <button 
+            type="button"
+            @click="clearFilters()" 
+            class="ml-4 mt-4 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+              Clear
+            </button>
+
+            <button 
+            type="button" 
+            class="ml-4 mt-4 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+              Create task
+            </button>
           </div>
       </div>
       <div class="container mx-auto">
@@ -103,7 +140,7 @@
                           </button>
                           <ul v-show="showOptions === task.id" class="absolute top-8 right-0 bg-white border border-gray-300 dark:bg-neutral-800 dark:border-neutral-700 rounded-lg shadow-lg z-10">
                             <li @click.stop="updateTask(task)" class="py-2 px-4 hover:bg-gray-100 dark:hover:bg-neutral-700 cursor-pointer">Update</li>
-                            <li @click.stop="deleteTask(task)" class="py-2 px-4 hover:bg-gray-100 dark:hover:bg-neutral-700 cursor-pointer">Delete</li>
+                            <li @click.stop="deleteTask(task.id)" class="py-2 px-4 hover:bg-gray-100 dark:hover:bg-neutral-700 cursor-pointer">Delete</li>
                           </ul>
                         </div>
                       </td>
@@ -173,7 +210,7 @@
         currentPage: 1,
         totalPages: 1,
         pageSize: 10, // Domyślna liczba elementów na stronie
-        pageOptions: [10, 25, 50, 100], 
+        pageOptions: [5, 10, 25, 50, 100], 
         searchQuery: null,
 
         taskStatus: [], // Tablica do przechowywania danych z endpointu
@@ -181,6 +218,10 @@
 
         categories: [],
         selectedCategory: null,
+
+        orderBy: [],
+        selectedOrderBy: 1,
+        isOrderByDesc: false
       };
     },
     watch: {
@@ -202,6 +243,12 @@
           this.fetchData(1)
         } 
       },
+      selectedOrderBy(newValue) {
+        if (newValue === "null") {
+          this.selectedOrderBy = null;
+          this.fetchData(1)
+        } 
+      },
     },
     methods: {
       fetchCategories(){
@@ -214,6 +261,22 @@
         })
         .then(response => {
           this.categories = response.data.todoTaskCategories;
+        })
+        .catch(error => {
+          console.error('Błąd pobierania danych:', error);
+        });
+      },
+      fetchOrderBy(){
+        const token = localStorage.getItem('jwt');
+
+        axios.get(`/enums/todo-task-order-by`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(response => {
+          this.orderBy = response.data;
+          this.selectedOrderBy = this.orderBy[0].id;
         })
         .catch(error => {
           console.error('Błąd pobierania danych:', error);
@@ -243,7 +306,9 @@
             pageSize: this.pageSize,
             search: this.searchQuery,
             categoryId: this.selectedCategory,
-            status: this.selectedStatus
+            status: this.selectedStatus,
+            orderBy: this.selectedOrderBy,
+            isOrderByDesc: this.isOrderByDesc
           },
           headers: {
             'Authorization': `Bearer ${token}`
@@ -266,9 +331,21 @@
         // Implementacja aktualizacji zadania
         console.log('Update task:', task);
       },
-      deleteTask(task) {
-        // Implementacja usuwania zadania
-        console.log('Delete task:', task);
+      deleteTask(taskId) {
+        const token = localStorage.getItem('jwt');
+
+        axios.delete(`/todo-tasks/${taskId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(response => {
+          this.fetchData(1);
+        })
+        .catch(error => {
+          console.error('Błąd pobierania danych:', error);
+        });
+        console.log('Delete task:', taskId);
       },
       goToPage(pageNumber) {
         // Implementacja przejścia do wybranej strony
@@ -295,11 +372,20 @@
           return ''; // Pusta klasa dla innych statusów
         }
       },
+      clearFilters(){
+        this.searchQuery = null;
+        this.selectedCategory = null;
+        this.selectedStatus = null;
+        this.selectedOrderBy = 1;
+        this.isOrderByDesc = false;
+        this.fetchData(1);
+      }
     },
     mounted() {
       this.fetchData(this.currentPage);
       this.fetchStatus();
       this.fetchCategories();
+      this.fetchOrderBy();
     },
   };
 </script>
