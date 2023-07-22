@@ -109,6 +109,12 @@ export default {
     setTimeout(() => {
       this.message = '';
     }, 3000);
+
+    this.error = localStorage.getItem('message');
+    localStorage.removeItem('message');
+    setTimeout(() => {
+      this.error = '';
+    }, 5000);
   }
 };
 </script>
