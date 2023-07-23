@@ -61,6 +61,7 @@
     
         <!-- Right elements -->
         <div class="relative flex items-center">
+          
           <!-- Container with two dropdown menus -->
           <div class="relative" data-te-dropdown-ref>
             <!-- First dropdown trigger -->
@@ -122,7 +123,7 @@
               </li>
             </ul>
           </div>
-    
+
           <!-- Second dropdown container -->
           <div class="relative" data-te-dropdown-ref>
             <!-- Second dropdown trigger -->
@@ -143,15 +144,13 @@
                   <!-- User avatar -->
               <div class="flex items-center avatar-container"> <!-- Dodaj klasę "avatar-container" -->
                 <!-- User avatar -->
-                <img
-                  src="https://img.icons8.com/pastel-glyph/64/person-male--v3.png"
-                  class="rounded-full h-8 w-8"
-                  alt="person-male--v3"
-                  loading="lazy"
+                <Icon 
+                  class="mt-1"
+                  icon="material-symbols:person"
+                  width="40"
                 />
               </div>
             </a>
-            
             <!-- Second dropdown menu -->
             <ul
               class="absolute left-auto right-0 z-[1000] float-left m-0 mt-1 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
@@ -185,6 +184,7 @@
     <script>
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { faUser } from '@fortawesome/free-solid-svg-icons';
+    import { Icon } from '@iconify/vue';
       import {
         Collapse,
         Dropdown,
@@ -192,6 +192,9 @@
       } from "tw-elements";
     
     export default {
+      components: {
+        Icon,
+      },
       mounted() {
         // Inicjalizacja "tw-elements" i przekazanie komponentów
         initTE({ Collapse, Dropdown });
