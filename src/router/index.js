@@ -4,6 +4,7 @@ import RegisterView from '../views/RegisterView.vue'
 import MainView from '../views/MainView.vue'
 
 import TaskTableComponent from "@/components/TaskTableComponent.vue";
+import CategoryTableComponent from "@/components/CategoryTableComponent.vue";
 import test from "@/components/test.vue";
 import test2 from "@/components/test2.vue";
 
@@ -28,7 +29,7 @@ const router = createRouter({
       meta: { requiresAuth: true },
       children: [
         { path: "", component: TaskTableComponent }, // Przykładowy podkomponent
-        { path: "t2", component: test2 }, // Inny podkomponent// Jeszcze inny podkomponent
+        { path: "categories", component: CategoryTableComponent }, // Inny podkomponent// Jeszcze inny podkomponent
       ],
     },
   ]
