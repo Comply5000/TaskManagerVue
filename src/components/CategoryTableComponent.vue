@@ -60,7 +60,7 @@
           <div class="min-w-max">
             <div class="w-max mx-auto bg-white rounded-lg shadow-lg">
               <div class="overflow-hidden">
-                <table class="mb-12 w-full text-center text-sm font-light divide-gray-200">
+                <table class="mb-20 w-full text-center text-sm font-light divide-gray-200">
                   <thead class="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
                     <tr>
                       <th scope="col" class="px-6 py-4 text-center">Name</th>
@@ -225,8 +225,8 @@
 </script>
 
 <style>
-    .avatar-container {
-      margin-top: -0.75rem; /* Dostosuj wartość marginesu, aby podnieść ikonę do góry */
-      margin-bottom: -0.25rem; /* Dostosuj wartość marginesu, aby podnieść ikonę do góry */
+    .overflow-y-auto {
+        overflow-y: auto;
+        max-height: calc(100vh - 4rem); /* Maksymalna wysokość komponentu */
     }
 </style>
