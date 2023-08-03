@@ -200,6 +200,7 @@
   
 <script>
   import axios from '../../config.js';
+  import moment from 'moment-timezone';
 
   import { Select, initTE } from "tw-elements";
   initTE({ Select });
@@ -326,8 +327,16 @@
         });
       },
       formatDate(dateString) {
-        const date = new Date(dateString);
-        return date.toLocaleDateString();
+        if (!dateString) {
+          return "No data"; // Zwracamy "No data" dla wartości null lub undefined
+        }
+
+        const localDate = moment.utc(dateString).tz("Europe/Warsaw");
+
+        // Formatowanie daty w żądanym formacie (np. "2023-08-02" dla Polski)
+        const formattedDate = localDate.format('YYYY-MM-DD');
+
+        return formattedDate;
       },
       updateTask(task) {
         // Implementacja aktualizacji zadania
