@@ -31,6 +31,7 @@ const router = createRouter({
       children: [
         { path: "", component: TaskTableComponent }, // Przykładowy podkomponent
         { path: "categories", component: CategoryTableComponent }, // Inny podkomponent// Jeszcze inny podkomponent
+        //{ path: "create-task", component: test2 }, // Inny podkomponent// Jeszcze inny podkomponent
         { path: "create-task", component: CreateTaskComponent }, // Inny podkomponent// Jeszcze inny podkomponent
       ],
     },

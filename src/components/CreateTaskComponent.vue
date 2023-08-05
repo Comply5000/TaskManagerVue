@@ -1,6 +1,6 @@
 <template>
     <div class="bg-blue-500 min-h-screen py-4 flex items-center justify-center overflow-y-auto">
-      <div class="w-full max-w-md rounded-lg bg-white p-8 shadow-lg dark:bg-neutral-700 transform scale-125 -translate-y-8">
+      <div class="w-full max-w-md rounded-lg bg-white p-8 shadow-lg dark:bg-neutral-700 -translate-y-8 transform scale-110">
         <form @submit.prevent="submitForm">
           <!-- Name input -->
           <div class="relative mb-6">
@@ -92,6 +92,54 @@
             </label>
           </div>
 
+          <!-- Upload file -->
+          <div
+            class="my-dropzone-container"
+            @dragover="dragover"
+            @dragleave="dragleave"
+            @drop="drop"
+            :style="isDragging && 'border-color: green;'"
+          >
+            <input
+              type="file"
+              multiple
+              name="file"
+              id="fileInput"
+              class="my-hidden-input"
+              @change="onChange"
+              ref="file"
+              accept=".pdf,.jpg,.jpeg,.png"
+            />
+
+            <label for="fileInput" class="my-file-label">
+              <div v-if="isDragging">Release to drop files here.</div>
+              <div v-else>Drop files here or <u>click here</u> to upload.</div>
+            </label>
+            <div class="my-preview-container" v-if="files.length">
+              <div v-for="file in files" :key="file.name" class="my-preview-card">
+                <button
+                  class="my-remove-button"
+                  type="button"
+                  @click="remove(files.indexOf(file))"
+                  title="Remove file"
+                >
+                  <b>×</b>
+                </button>
+                <div class="my-file-info">
+                  <Icon 
+                    class="mt-1"
+                    icon="mdi:file"
+                    width="30"
+                  />
+                  <p>
+                    {{ file.name.length > 10 ? file.name.substring(0, 5) + '...' + file.name.split('.').pop() : file.name }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Errors -->
           <div v-if="errors" class="mt-6">
             <ul class="error-list">
               <li v-for="errorMsg in errors" :key="errorMsg" class="error-message">
@@ -119,12 +167,16 @@
 <script>
 import moment from 'moment';
 import axios from '../../config.js';
+import { Icon } from '@iconify/vue';
 
 import { Ripple, Input, initTE } from "tw-elements";
   
 initTE({ Ripple, Input });
   
 export default {
+  components: {
+      Icon,
+  },
   data() {
     return {
       formData:{
@@ -133,8 +185,9 @@ export default {
         status: "",
         categoryId: null,
         description: "",
-        files: []
       },
+      isDragging: false,
+      files: [],
       errors: [],
       taskStatus: [],
       categories: []
@@ -154,6 +207,9 @@ export default {
       formData.append('status', this.formData.status);
       formData.append('categoryId', this.formData.categoryId);
       formData.append('description', this.formData.description);
+      this.files.forEach((file) => {
+        formData.append("files", file);
+      });
 
       const token = localStorage.getItem('jwt');
 
@@ -217,6 +273,44 @@ export default {
           console.error('Błąd pobierania danych:', error);
         });
     },
+    onChange() {
+      const self = this;
+      let incomingFiles = Array.from(this.$refs.file.files);
+      const fileExist = self.files.some((r) =>
+        incomingFiles.some(
+          (file) => file.name === r.name && file.size === r.size
+        )
+      );
+      if (fileExist) {
+        self.showMessage = true;
+        alert("New upload contains files that already exist");
+      } else {
+        self.files.push(...incomingFiles);
+      }
+    },
+    dragover(e) {
+      e.preventDefault();
+      this.isDragging = true;
+    },
+    dragleave() {
+      this.isDragging = false;
+    },
+    drop(e) {
+      e.preventDefault();
+      this.$refs.file.files = e.dataTransfer.files;
+      this.onChange();
+      this.isDragging = false;
+    },
+    remove(i) {
+      this.files.splice(i, 1);
+    },
+    generateURL(file) {
+      let fileSrc = URL.createObjectURL(file);
+      setTimeout(() => {
+          URL.revokeObjectURL(fileSrc);
+      }, 1000);
+      return fileSrc;
+    },
   },
   mounted() {
       this.fetchStatus();
@@ -231,5 +325,69 @@ export default {
   overflow-y: auto;
   max-height: calc(100vh - 4rem); /* Maksymalna wysokość komponentu */
 }
+
+.main {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    height: 100vh;
+    justify-content: center;
+    text-align: center;
+}
+
+.my-dropzone-container {
+    padding: 0.5rem;
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.my-hidden-input {
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+}
+
+.my-file-label {
+    font-size: 16px;
+    display: block;
+    cursor: pointer;
+    text-align: center;
+}
+
+.my-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.my-preview-card {
+    display: flex;
+    width: calc(33.33% - 10px);
+    align-items: center;
+    position: relative; 
+    border: 1px solid #a2a2a2;
+    padding: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+.my-remove-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    padding-right: 3px;
+}
+
+.my-file-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
 </style>
   
