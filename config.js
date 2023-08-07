@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // Konfiguracja globalna Axios
-axios.defaults.baseURL = 'https://comply.chickenkiller.com/api'; // Adres URL serwera API
-//axios.defaults.baseURL = 'https://localhost:7237/api';
+//axios.defaults.baseURL = 'https://comply.chickenkiller.com/api'; // Adres URL serwera API
+axios.defaults.baseURL = 'https://localhost:7237/api';
 axios.defaults.withCredentials = true; // Ustawienie withCredentials na true
 
 axios.interceptors.response.use(
