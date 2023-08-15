@@ -125,13 +125,9 @@
                   <b>×</b>
                 </button>
                 <div class="my-file-info">
-                  <Icon 
-                    class="mt-1"
-                    icon="mdi:file"
-                    width="30"
-                  />
+                  <font-awesome-icon icon="file" style="color: #000000; text-align: center;" size="2x"/>
                   <p>
-                    {{ file.name.length > 10 ? file.name.substring(0, 5) + '...' + file.name.split('.').pop() : file.name }}
+                    {{ file.name.length > 12 ? file.name.substring(0, 7) + '...' + file.name.split('.').pop() : file.name }}
                   </p>
                 </div>
               </div>
@@ -167,16 +163,12 @@
 import moment from 'moment';
 import axios from '../../config.js';
 import { handleErrors } from '../../errorHandler.js';
-import { Icon } from '@iconify/vue';
 
 import { Ripple, Input, initTE } from "tw-elements";
   
 initTE({ Ripple, Input });
   
 export default {
-  components: {
-      Icon,
-  },
   data() {
     return {
       formData:{
@@ -351,11 +343,13 @@ export default {
     display: flex;
     width: calc(33.33% - 10px);
     align-items: center;
+    justify-content: center;
     position: relative; 
     border: 1px solid #a2a2a2;
     padding: 5px;
     margin-left: 5px;
     margin-bottom: 5px;
+    text-align: center;
 }
 
 .my-remove-button {
@@ -371,7 +365,6 @@ export default {
 .my-file-info {
     display: flex;
     flex-direction: column;
-    align-items: center;
   }
 
 </style>

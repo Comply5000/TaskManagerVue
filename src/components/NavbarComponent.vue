@@ -144,11 +144,7 @@
                   <!-- User avatar -->
               <div class="flex items-center avatar-container"> <!-- Dodaj klasę "avatar-container" -->
                 <!-- User avatar -->
-                <Icon 
-                  class="mt-1"
-                  icon="material-symbols:person"
-                  width="40"
-                />
+                <font-awesome-icon :icon="['fas', 'user']" style="color: #000000; margin-top: 7px;" size="2x" />
               </div>
             </a>
             <!-- Second dropdown menu -->
@@ -183,8 +179,6 @@
     
     <script>
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-    import { faUser } from '@fortawesome/free-solid-svg-icons';
-    import { Icon } from '@iconify/vue';
       import {
         Collapse,
         Dropdown,
@@ -192,9 +186,6 @@
       } from "tw-elements";
     
     export default {
-      components: {
-        Icon,
-      },
       mounted() {
         // Inicjalizacja "tw-elements" i przekazanie komponentów
         initTE({ Collapse, Dropdown });

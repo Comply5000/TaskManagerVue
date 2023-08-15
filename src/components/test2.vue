@@ -1,54 +1,7 @@
 <template>
-  <div class="main">
-    <div
-      class="dropzone-container"
-      @dragover="dragover"
-      @dragleave="dragleave"
-      @drop="drop"
-      :style="isDragging && 'border-color: green;'"
-    >
-      <input
-        type="file"
-        multiple
-        name="file"
-        id="fileInput"
-        class="hidden-input"
-        @change="onChange"
-        ref="file"
-        accept=".pdf,.jpg,.jpeg,.png"
-      />
-
-      <label for="fileInput" class="file-label">
-        <div v-if="isDragging">Release to drop files here.</div>
-        <div v-else>Drop files here or <u>click here</u> to upload.</div>
-      </label>
-      <div class="preview-container mt-4" v-if="files.length">
-        <div v-for="file in files" :key="file.name" class="preview-card">
-          <div>
-            <Icon 
-              class="mt-1"
-              icon="mdi:file"
-              width="40"
-            />
-           <p>
-            {{ file.name.length > 10 ? file.name.substring(0, 5) + '...' + file.name.split('.').pop() : file.name }}
-              <!-- {{ Math.round(file.size / 1000) + "kb" }} -->
-            </p>
-          </div>
-          <div>
-            <button
-              class="ml-2"
-              type="button"
-              @click="remove(files.indexOf(file))"
-              title="Remove file"
-            >
-              <b>×</b>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <font-awesome-icon icon="fa-solid fa-user-secret" />
+  <font-awesome-icon :icon="['fas', 'user']" style="color: #000000;" />
+  <font-awesome-icon icon="file" style="color: #000000;" />
 </template>
 
 <script>
