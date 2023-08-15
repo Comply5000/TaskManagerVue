@@ -6,6 +6,7 @@ import MainView from '../views/MainView.vue'
 import TaskTableComponent from "@/components/TaskTableComponent.vue";
 import CategoryTableComponent from "@/components/CategoryTableComponent.vue";
 import CreateTaskComponent from "@/components/CreateTaskComponent.vue";
+import UpdateCategoryComponent from "@/components/UpdateCategoryComponent.vue";
 import test from "@/components/test.vue";
 import test2 from "@/components/test2.vue";
 
@@ -29,10 +30,11 @@ const router = createRouter({
       component: MainView,
       meta: { requiresAuth: true },
       children: [
-        { path: "", component: TaskTableComponent }, // Przykładowy podkomponent
-        { path: "categories", component: CategoryTableComponent }, // Inny podkomponent// Jeszcze inny podkomponent
-        //{ path: "create-task", component: test2 }, // Inny podkomponent// Jeszcze inny podkomponent
-        { path: "create-task", component: CreateTaskComponent }, // Inny podkomponent// Jeszcze inny podkomponent
+        { path: "", component: TaskTableComponent },
+        { path: "categories", component: CategoryTableComponent },
+        //{ path: "create-task", component: test2 }, 
+        { path: "create-task", component: CreateTaskComponent },
+        { path: "update-category", component: UpdateCategoryComponent },
       ],
     },
   ]

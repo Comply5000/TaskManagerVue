@@ -91,7 +91,7 @@
                             </svg>
                           </button>
                           <ul v-show="showOptions === category.id" class="absolute top-8 right-0 bg-white border border-gray-300 dark:bg-neutral-800 dark:border-neutral-700 rounded-lg shadow-lg z-10">
-                            <li @click.stop="updateTask(category)" class="py-2 px-4 hover:bg-gray-100 dark:hover:bg-neutral-700 cursor-pointer">Update</li>
+                            <li @click.stop="updateTask(category.id)" class="py-2 px-4 hover:bg-gray-100 dark:hover:bg-neutral-700 cursor-pointer">Update</li>
                             <li @click.stop="deleteCategory(category.id)" class="py-2 px-4 hover:bg-gray-100 dark:hover:bg-neutral-700 cursor-pointer">Delete</li>
                           </ul>
                         </div>
@@ -109,6 +109,7 @@
 
 <script>
   import axios from '../../config.js';
+  import { handleErrors } from '../../errorHandler.js';
 
   import {
     Input,
@@ -145,24 +146,9 @@
           this.categoryData.description = '';
         })
         .catch(error => {
-          if (error.response && error.response.status === 400) {
-            if (error.response.data.errors) {
-              // Obsługa błędów z formatem { errors: { field: [errorMsg1, errorMsg2, ...] } }
-              const errorFields = Object.keys(error.response.data.errors);
-              errorFields.forEach(field => {
-                this.errors = this.errors.concat(error.response.data.errors[field]);
-              });
-            } else if (error.response.data.title && error.response.data.status) {
-              // Obsługa błędów z formatem { title: errorMsg, status: statusCode }
-              this.errors.push(error.response.data.title);
-            } else {
-              // Nieznany format błędu
-              this.errors.push('Sorry, there was an error. Please try again.');
-            }
-          } else {
-            // Inne błędy
-            this.errors.push('Sorry, there was a problem connecting to the server. Please try again later.');
-          }
+            const errors = [];
+            handleErrors(error, errors);
+            this.errors = this.errors.concat(errors);
         });
       },
       fetchCategories(){
@@ -180,42 +166,31 @@
           console.error('Błąd pobierania danych:', error);
         });
       },
-      updateTask(task) {
-        // Implementacja aktualizacji zadania
-        console.log('Update task:', task);
+      updateTask(categoryId) {
+        localStorage.setItem('categoryId', categoryId);
+        this.$router.push('/main/update-category'); 
       },
       deleteCategory(categoryId) {
-        const token = localStorage.getItem('jwt');
+        const userConfirmed = window.confirm('Are you sure you want to delete this category? It will delete all assigned tasks and files!');
 
-        axios.delete(`/todo-task-categories/${categoryId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })
-        .then(response => {
-            this.fetchCategories();
-        })
-        .catch(error => {
-          if (error.response && error.response.status === 400) {
-            if (error.response.data.errors) {
-              // Obsługa błędów z formatem { errors: { field: [errorMsg1, errorMsg2, ...] } }
-              const errorFields = Object.keys(error.response.data.errors);
-              errorFields.forEach(field => {
-                this.errors = this.errors.concat(error.response.data.errors[field]);
-              });
-            } else if (error.response.data.title && error.response.data.status) {
-              // Obsługa błędów z formatem { title: errorMsg, status: statusCode }
-              this.errors.push(error.response.data.title);
-            } else {
-              // Nieznany format błędu
-              this.errors.push('Sorry, there was an error. Please try again.');
+        if(userConfirmed)
+        {
+          const token = localStorage.getItem('jwt');
+
+          axios.delete(`/todo-task-categories/${categoryId}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
             }
-          } else {
-            // Inne błędy
-            this.errors.push('Sorry, there was a problem connecting to the server. Please try again later.');
-          }
-        });
-        console.log('Delete task:', taskId);
+          })
+          .then(response => {
+              this.fetchCategories();
+          })
+          .catch(error => {
+              const errors = [];
+              handleErrors(error, errors);
+              this.errors = this.errors.concat(errors);
+          });
+        }
       },
     },
     mounted() {

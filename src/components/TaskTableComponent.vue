@@ -343,20 +343,24 @@
         console.log('Update task:', task);
       },
       deleteTask(taskId) {
-        const token = localStorage.getItem('jwt');
+        const userConfirmed = window.confirm('Are you sure you want to delete this item?');
 
-        axios.delete(`/todo-tasks/${taskId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })
-        .then(response => {
-          this.fetchData(1);
-        })
-        .catch(error => {
-          console.error('Błąd pobierania danych:', error);
-        });
-        console.log('Delete task:', taskId);
+        if(userConfirmed)
+        {
+          const token = localStorage.getItem('jwt');
+
+          axios.delete(`/todo-tasks/${taskId}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+          .then(response => {
+            this.fetchData(1);
+          })
+          .catch(error => {
+            console.error('Błąd pobierania danych:', error);
+          });
+        }
       },
       goToPage(pageNumber) {
         // Implementacja przejścia do wybranej strony

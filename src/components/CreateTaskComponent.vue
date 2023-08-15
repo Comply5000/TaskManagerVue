@@ -166,6 +166,7 @@
 <script>
 import moment from 'moment';
 import axios from '../../config.js';
+import { handleErrors } from '../../errorHandler.js';
 import { Icon } from '@iconify/vue';
 
 import { Ripple, Input, initTE } from "tw-elements";
@@ -222,24 +223,9 @@ export default {
           this.$router.push('/main'); 
         })
         .catch(error => {
-          if (error.response && error.response.status === 400) {
-            if (error.response.data.errors) {
-              // Obsługa błędów z formatem { errors: { field: [errorMsg1, errorMsg2, ...] } }
-              const errorFields = Object.keys(error.response.data.errors);
-              errorFields.forEach(field => {
-                this.errors = this.errors.concat(error.response.data.errors[field]);
-              });
-            } else if (error.response.data.title && error.response.data.status) {
-              // Obsługa błędów z formatem { title: errorMsg, status: statusCode }
-              this.errors.push(error.response.data.title);
-            } else {
-              // Nieznany format błędu
-              this.errors.push('Sorry, there was an error. Please try again.');
-            }
-          } else {
-            // Inne błędy
-            this.errors.push('Sorry, there was a problem connecting to the server. Please try again later.');
-          }
+            const errors = [];
+            handleErrors(error, errors);
+            this.errors = this.errors.concat(errors);
         });
     },
     fetchCategories(){
