@@ -307,7 +307,7 @@
           params: {
             pageNumber: pageNumber,
             pageSize: this.pageSize,
-            search: this.searchQuery,
+            search: (this.searchQuery || '').trim(),
             categoryId: this.selectedCategory,
             status: this.selectedStatus,
             orderBy: this.selectedOrderBy,
