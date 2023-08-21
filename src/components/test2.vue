@@ -2,6 +2,8 @@
   <font-awesome-icon icon="fa-solid fa-user-secret" />
   <font-awesome-icon :icon="['fas', 'user']" style="color: #000000;" />
   <font-awesome-icon icon="file" style="color: #000000;" />
+  <font-awesome-icon icon="fas fa-exclamation" style="color: #FF0000;" />
+  
 </template>
 
 <script>

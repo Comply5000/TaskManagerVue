@@ -110,14 +110,29 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="task in tasks" :key="task.id" class="border-b bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
+                    <tr
+                      v-for="(task, index) in tasks"
+                      :key="task.id"
+                      :class="{
+                        'border-b': true,
+                        'bg-neutral-100': index % 2 === 0,
+                        'bg-gray-200': index % 2 !== 0, // Ustaw kolor tła dla drugiego rekordu
+                        'dark:border-neutral-500': true,
+                        'dark:bg-neutral-700': true
+                      }"
+                    >
                       <td class="whitespace-nowrap px-6 py-4 font-medium text-center">{{ task.name }}</td>
                       <!-- Dodaj dynamiczne klasy w zależności od statusu -->
                       <td :class="getStatusClass(task.status.id)" class="text-center">
                         {{ task.status.name }}
                       </td>
                       <td class="whitespace-nowrap px-6 py-4 text-center">{{ task.categoryName }}</td>
-                      <td class="whitespace-nowrap px-6 py-4 text-center">{{ formatDate(task.deadline) }}</td>
+                      <td
+                        class="whitespace-nowrap px-6 py-4 text-center"
+                        :style="{ color: task.isLessThenDay ? '#FF0000' : '' }"
+                      >
+                        {{ formatDateWithHours(task.deadline) }}
+                      </td>
                       <td class="whitespace-nowrap px-6 py-4 text-center">{{ formatDate(task.createdAt) }}</td>               
                       <td class="whitespace-nowrap px-6 py-4 text-center">{{ formatDate(task.lastModifiedAt) }}</td>
                       <td class="whitespace-nowrap px-6 py-4 text-center">
@@ -335,6 +350,18 @@
 
         // Formatowanie daty w żądanym formacie (np. "2023-08-02" dla Polski)
         const formattedDate = localDate.format('YYYY-MM-DD');
+
+        return formattedDate;
+      },
+      formatDateWithHours(dateString) {
+        if (!dateString) {
+          return "No data"; // Zwracamy "No data" dla wartości null lub undefined
+        }
+
+        const localDate = moment.utc(dateString).tz("Europe/Warsaw");
+
+        // Formatowanie daty w żądanym formacie (np. "2023-08-02" dla Polski)
+        const formattedDate = localDate.format('YYYY-MM-DD HH:mm:ss');
 
         return formattedDate;
       },
