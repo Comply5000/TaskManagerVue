@@ -361,7 +361,7 @@
         const localDate = moment.utc(dateString).tz("Europe/Warsaw");
 
         // Formatowanie daty w żądanym formacie (np. "2023-08-02" dla Polski)
-        const formattedDate = localDate.format('YYYY-MM-DD HH:mm:ss');
+        const formattedDate = localDate.format('YYYY-MM-DD | HH:mm');
 
         return formattedDate;
       },

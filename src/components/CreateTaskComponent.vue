@@ -152,7 +152,7 @@
             data-te-ripple-init
             data-te-ripple-color="light"
           >
-            Send
+            Create
           </button>
         </form>
       </div>
