@@ -7,6 +7,7 @@ import TaskTableComponent from "@/components/TaskTableComponent.vue";
 import CategoryTableComponent from "@/components/CategoryTableComponent.vue";
 import CreateTaskComponent from "@/components/CreateTaskComponent.vue";
 import UpdateCategoryComponent from "@/components/UpdateCategoryComponent.vue";
+import UpdateTaskComponent from "@/components/UpdateTaskComponent.vue";
 import test from "@/components/test.vue";
 import test2 from "@/components/test2.vue";
 
@@ -35,6 +36,7 @@ const router = createRouter({
         //{ path: "create-task", component: test2 }, 
         { path: "create-task", component: CreateTaskComponent },
         { path: "update-category", component: UpdateCategoryComponent },
+        { path: "update-task", component: UpdateTaskComponent },
       ],
     },
   ]

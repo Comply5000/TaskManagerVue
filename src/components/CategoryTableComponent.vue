@@ -69,7 +69,17 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="category in categories" :key="category.id" class="border-b bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
+                    <tr
+                      v-for="(category, index) in categories"
+                      :key="category.id"
+                      :class="{
+                        'border-b': true,
+                        'bg-neutral-100': index % 2 === 0,
+                        'bg-gray-200': index % 2 !== 0, // Ustaw kolor tła dla drugiego rekordu
+                        'dark:border-neutral-500': true,
+                        'dark:bg-neutral-700': true
+                      }"
+                    >
                       <td class="whitespace-nowrap px-6 py-4 font-medium text-center">{{ category.name }}</td>
                       <td class="whitespace-nowrap px-6 py-4 text-center">{{ category.description }}</td>
                       <td class="whitespace-nowrap px-6 py-4 text-center">

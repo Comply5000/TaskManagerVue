@@ -154,7 +154,7 @@
                             </svg>
                           </button>
                           <ul v-show="showOptions === task.id" class="absolute top-8 right-0 bg-white border border-gray-300 dark:bg-neutral-800 dark:border-neutral-700 rounded-lg shadow-lg z-10">
-                            <li @click.stop="updateTask(task)" class="py-2 px-4 hover:bg-gray-100 dark:hover:bg-neutral-700 cursor-pointer">Update</li>
+                            <li @click.stop="updateTask(task.id)" class="py-2 px-4 hover:bg-gray-100 dark:hover:bg-neutral-700 cursor-pointer">Update</li>
                             <li @click.stop="deleteTask(task.id)" class="py-2 px-4 hover:bg-gray-100 dark:hover:bg-neutral-700 cursor-pointer">Delete</li>
                           </ul>
                         </div>
@@ -365,9 +365,9 @@
 
         return formattedDate;
       },
-      updateTask(task) {
-        // Implementacja aktualizacji zadania
-        console.log('Update task:', task);
+      updateTask(taskId) {
+        localStorage.setItem('taskId', taskId);
+        this.$router.push('/main/update-task'); 
       },
       deleteTask(taskId) {
         const userConfirmed = window.confirm('Are you sure you want to delete this item?');
