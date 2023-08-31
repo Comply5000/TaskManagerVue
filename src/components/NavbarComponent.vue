@@ -194,7 +194,7 @@
         logout() {
           // Czyszczenie tokenu dostępu lub innych danych w localStorage
           localStorage.clear();
-    
+          
           // Przekierowanie do widoku logowania
           this.$router.push('/');
         }

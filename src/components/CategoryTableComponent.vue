@@ -114,12 +114,15 @@
           </div>
         </div>
       </div>
+      <MessageComponent />
 </div>
 </template>
 
 <script>
   import axios from '../../config.js';
   import { handleErrors } from '../../errorHandler.js';
+  import { mapActions } from 'vuex';
+  import MessageComponent from '@/components/MessageComponent.vue';
 
   import {
     Input,
@@ -130,6 +133,10 @@
 
   
   export default {
+    components: {
+      MessageComponent
+    // Pozostałe komponenty
+    },
     data() {
       return {
         errors: [],
@@ -194,6 +201,7 @@
           })
           .then(response => {
               this.fetchCategories();
+              this.$store.dispatch('showMessage', { message: 'Category deleted successfully.', duration: 3000 });
           })
           .catch(error => {
               const errors = [];
