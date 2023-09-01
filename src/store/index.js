@@ -4,7 +4,7 @@ export default createStore({
   state: {
     showBox: false,
     message: '',
-    messageDuration: 2000
+    messageDuration: 1500
   },
   mutations: {
     setShowBox(state, value) {
@@ -18,7 +18,7 @@ export default createStore({
     }
   },
   actions: {
-    showMessage({ commit }, { message, duration = 2000 }) {
+    showMessage({ commit }, { message, duration = 1500 }) {
       commit('setMessage', message);
       commit('setShowBox', true);
       commit('setMessageDuration', duration);
@@ -26,7 +26,7 @@ export default createStore({
       setTimeout(() => {
         commit('setShowBox', false);
         commit('setMessage', ''); // Wyczyść komunikat po ukryciu
-        commit('setMessageDuration', 2000); // Powrót do domyślnego czasu trwania
+        commit('setMessageDuration', 1500); // Powrót do domyślnego czasu trwania
       }, duration);
     }
   }
