@@ -91,7 +91,7 @@
         .then(response => {
             localStorage.removeItem('categoryId');
             this.$router.push('/main/categories'); 
-            this.$store.dispatch('showMessage', { message: 'Category updated successfully.', duration: 3000 });
+            this.$store.dispatch('showMessage', { message: 'Category updated successfully.'});
         })
         .catch(error => {
             const errors = [];

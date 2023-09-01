@@ -161,7 +161,7 @@
           this.fetchCategories();
           this.categoryData.name = '';
           this.categoryData.description = '';
-          this.$store.dispatch('showMessage', { message: 'Category created successfully.', duration: 3000 });
+          this.$store.dispatch('showMessage', { message: 'Category created successfully.'});
         })
         .catch(error => {
             const errors = [];
@@ -202,7 +202,7 @@
           })
           .then(response => {
               this.fetchCategories();
-              this.$store.dispatch('showMessage', { message: 'Category deleted successfully.', duration: 3000 });
+              this.$store.dispatch('showMessage', { message: 'Category deleted successfully.'});
           })
           .catch(error => {
               const errors = [];

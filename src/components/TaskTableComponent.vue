@@ -388,7 +388,7 @@
           })
           .then(response => {
             this.fetchData(1);
-            this.$store.dispatch('showMessage', { message: 'Task deleted successfully.', duration: 3000 });
+            this.$store.dispatch('showMessage', { message: 'Task deleted successfully.'});
           })
           .catch(error => {
             console.error('Błąd pobierania danych:', error);
