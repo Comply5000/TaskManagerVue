@@ -208,6 +208,7 @@
           </div>
         </div>
       </div>
+      <MessageComponent />
     </div>
 </template>
 
@@ -216,11 +217,15 @@
 <script>
   import axios from '../../config.js';
   import moment from 'moment-timezone';
+  import MessageComponent from '@/components/MessageComponent.vue';
 
   import { Select, initTE } from "tw-elements";
   initTE({ Select });
   
   export default {
+    components: {
+      MessageComponent
+    },
     data() {
       return {
         tasks: [],
@@ -383,6 +388,7 @@
           })
           .then(response => {
             this.fetchData(1);
+            this.$store.dispatch('showMessage', { message: 'Task deleted successfully.', duration: 3000 });
           })
           .catch(error => {
             console.error('Błąd pobierania danych:', error);

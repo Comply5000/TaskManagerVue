@@ -161,6 +161,7 @@
           this.fetchCategories();
           this.categoryData.name = '';
           this.categoryData.description = '';
+          this.$store.dispatch('showMessage', { message: 'Category created successfully.', duration: 3000 });
         })
         .catch(error => {
             const errors = [];
