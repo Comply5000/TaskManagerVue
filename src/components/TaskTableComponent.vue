@@ -121,7 +121,12 @@
                         'dark:bg-neutral-700': true
                       }"
                     >
-                      <td class="whitespace-nowrap px-6 py-4 font-medium text-center">{{ task.name }}</td>
+                      <td
+                        class="whitespace-nowrap px-6 py-4 font-medium text-center cursor-pointer"
+                        @click="goToTask(task.id)"
+                      >
+                        {{ task.name }}
+                      </td>
                       <!-- Dodaj dynamiczne klasy w zależności od statusu -->
                       <td :class="getStatusClass(task.status.id)" class="text-center">
                         {{ task.status.name }}
@@ -394,6 +399,10 @@
             console.error('Błąd pobierania danych:', error);
           });
         }
+      },
+      goToTask(taskId){
+        localStorage.setItem('taskId', taskId);
+        this.$router.push('/main/task'); 
       },
       goToPage(pageNumber) {
         // Implementacja przejścia do wybranej strony

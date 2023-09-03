@@ -161,8 +161,8 @@ export default {
             }
         })
         .then(response => {
-          localStorage.removeItem('taskId');
-          this.$router.push('/main'); 
+          this.$router.push('/main/task'); 
+          this.$store.dispatch('showMessage', { message: 'Task updated successfully.'});
         })
         .catch(error => {
             const errors = [];

@@ -212,7 +212,8 @@ export default {
             }
         })
         .then(response => {
-          this.$router.push('/main'); 
+          localStorage.setItem("taskId", response.data.id);
+          this.$router.push('/main/task'); 
         })
         .catch(error => {
             const errors = [];
