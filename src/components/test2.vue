@@ -1,77 +1,49 @@
 <template>
 <!-- Container for demo purpose -->
-<div class="container my-24 mx-auto md:px-6">
-  <!-- Section: Design Block -->
-  <section class="mb-32">
-    <h1 class="mb-4 text-3xl font-bold">
-      An intriguing title for an interesting article
-    </h1>
-
-    <p class="mb-6 flex items-center font-bold uppercase text-danger dark:text-danger-500">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-        class="mr-2 h-5 w-5">
-        <path stroke-linecap="round" stroke-linejoin="round"
-          d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
-        <path stroke-linecap="round" stroke-linejoin="round"
-          d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" />
-        </svg>Hot news
-    </p>
-
-    <p class="mb-6">
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio
-      sapiente molestias consectetur. Fuga nulla officia error placeat
-      veniam, officiis rerum laboriosam ullam molestiae magni velit laborum
-      itaque minima doloribus eligendi! Lorem ipsum, dolor sit amet
-      consectetur adipisicing elit. Optio sapiente molestias consectetur.
-      Fuga nulla officia error placeat veniam, officiis rerum laboriosam
-      ullam molestiae magni velit laborum itaque minima doloribus eligendi!
-    </p>
-
-    <p class="mb-6">
-      <strong>Optio sapiente molestias consectetur?</strong>
-    </p>
-
-    <p class="mb-6">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum
-      architecto ex ab aut tempora officia libero praesentium, sint id
-      magnam eius natus unde blanditiis. Autem adipisci totam sit
-      consequuntur eligendi.
-    </p>
-
-    <p
-      class="mb-6 rounded border-l-4 border-neutral-800 bg-neutral-100 p-2 dark:border-neutral-200 dark:bg-neutral-700">
-      <strong>Note:</strong> Lorem ipsum dolor sit amet, consectetur
-      adipisicing elit. Optio odit consequatur porro sequi ab distinctio
-      modi. Rerum cum dolores sint, adipisci ad veritatis laborum eaque
-      illum saepe mollitia ut voluptatum.
-    </p>
-
-    <p class="mb-6">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
-      libero repellat molestiae aperiam laborum aliquid atque magni nostrum,
-      inventore perspiciatis possimus quia incidunt maiores molestias eaque
-      nam commodi! Magnam, labore.
-    </p>
-
-    <img src="https://mdbcdn.b-cdn.net/img/new/slides/194.jpg"
-      class="mb-6 w-full rounded-lg shadow-lg dark:shadow-black/20" alt="" />
-
-    <ul class="mb-6 list-inside list-disc">
-      <li>Lorem</li>
-      <li>Ipsum</li>
-      <li>Dolor</li>
-      <li>Sit</li>
-      <li>Amet</li>
-    </ul>
-
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed,
-      temporibus nulla voluptatibus accusantium sapiente doloremque.
-      Doloribus ratione laboriosam culpa. Ab officiis quidem, debitis
-      nostrum in accusantium dolore veritatis eius est?
-    </p>
-  </section>
-  <!-- Section: Design Block -->
+<div class="flex flex-col">
+  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+      <div class="overflow-hidden">
+        <table class="min-w-full text-left text-sm font-light">
+          <thead
+            class="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
+            <tr>
+              <th scope="col" class="px-6 py-4">#</th>
+              <th scope="col" class="px-6 py-4">First</th>
+              <th scope="col" class="px-6 py-4">Last</th>
+              <th scope="col" class="px-6 py-4">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="border-b bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
+              <td class="whitespace-nowrap px-6 py-4 font-medium">1</td>
+              <td class="whitespace-nowrap px-6 py-4">Mark</td>
+              <td class="whitespace-nowrap px-6 py-4">Otto</td>
+              <td class="whitespace-nowrap px-6 py-4">@mdo</td>
+            </tr>
+            <tr
+              class="border-b bg-white dark:border-neutral-500 dark:bg-neutral-600">
+              <td class="whitespace-nowrap px-6 py-4 font-medium">2</td>
+              <td class="whitespace-nowrap px-6 py-4">Jacob</td>
+              <td class="whitespace-nowrap px-6 py-4">Thornton</td>
+              <td class="whitespace-nowrap px-6 py-4">@fat</td>
+            </tr>
+            <tr
+              class="border-b bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
+              <td class="whitespace-nowrap px-6 py-4 font-medium">3</td>
+              <td
+                colspan="2"
+                class="whitespace-nowrap px-6 py-4 text-center">
+                Larry the Bird
+              </td>
+              <td class="whitespace-nowrap px-6 py-4">@twitter</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
   
 </template>
