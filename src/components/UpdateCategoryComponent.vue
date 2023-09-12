@@ -22,6 +22,21 @@
             </div>
             <div class="relative flex-1">
               <input
+                v-model="categoryData.linkTo"
+                type="text"
+                id="linkTo"
+                class="mt-8 pl-2 py-1 text-base border-b border-gray-300 focus:border-blue-600 focus:outline-none"
+              />
+              <label
+                for="linkTo"
+                class="absolute left-2 top-2 text-gray-600 transition-all duration-300"
+                :class="{ 'text-xs': categoryData.linkTo }"
+              >
+                LinkTo:
+              </label>
+            </div>
+            <div class="relative flex-1">
+              <input
                 v-model="categoryData.description"
                 type="text"
                 id="description"
@@ -35,13 +50,15 @@
                 Description:
               </label>
             </div>
-            <button 
-                @click="updateCategory()"
-                class="py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700">
+            <button
+              @click="updateCategory()"
+              class="py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700"
+            >
               Update
             </button>
           </div>
         </form>
+
         <div v-if="errors" class="mt-6">
         <ul class="error-list">
           <li v-for="errorMsg in errors" :key="errorMsg" class="error-message">

@@ -86,7 +86,7 @@
                       }"
                     >
                       <td 
-                        class="whitespace-nowrap px-6 py-4 font-medium text-center"
+                        class="whitespace-nowrap px-6 py-4 font-medium text-center cursor-pointer"
                         @click="downloadFile(file)"
                       >
                         {{ file.name }}
