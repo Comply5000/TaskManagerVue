@@ -10,7 +10,6 @@ import UpdateCategoryComponent from "@/components/UpdateCategoryComponent.vue";
 import UpdateTaskComponent from "@/components/UpdateTaskComponent.vue";
 import TaskViewComponent from "@/components/TaskViewComponent.vue";
 import test from "@/components/test.vue";
-import test2 from "@/components/test2.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,7 +35,6 @@ const router = createRouter({
         { path: "categories", component: CategoryTableComponent },
         { path: "task", component: TaskViewComponent }, 
         { path: "create-task", component: CreateTaskComponent },
-        //{ path: "create-task", component: test2 },
         { path: "update-category", component: UpdateCategoryComponent },
         { path: "update-task", component: UpdateTaskComponent },
       ],

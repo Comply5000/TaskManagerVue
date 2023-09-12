@@ -158,6 +158,7 @@
         </form>
       </div>
     </div>
+    <LoadingComponent ref="cogwheel" />
     </div>
 </template>
   
@@ -165,12 +166,16 @@
 import moment from 'moment';
 import axios from '../../config.js';
 import { handleErrors } from '../../errorHandler.js';
+import LoadingComponent from '@/components/LoadingComponent.vue';
 
 import { Ripple, Input, initTE } from "tw-elements";
   
 initTE({ Ripple, Input });
   
 export default {
+  components: {
+    LoadingComponent, // Dodaj komponent zębatki do sekcji "components"
+  },
   data() {
     return {
       formData:{
@@ -190,7 +195,7 @@ export default {
   methods: {
     submitForm() {
       this.errors = [];
-
+      this.$refs.cogwheel.show();
       const formData = new FormData();
 
       const momentDate = moment(this.formData.deadline, 'YYYY-MM-DDTHH:mm');
@@ -214,14 +219,16 @@ export default {
             }
         })
         .then(response => {
+          this.$refs.cogwheel.hide();
           localStorage.setItem("taskId", response.data.id);
           this.$router.push('/main/task'); 
-          this.$store.dispatch('showMessage', { message: 'Task updated successfully.'});
+          this.$store.dispatch('showMessage', { message: 'Task created successfully.'});
         })
         .catch(error => {
-            const errors = [];
-            handleErrors(error, errors);
-            this.errors = this.errors.concat(errors);
+          this.$refs.cogwheel.hide();
+          const errors = [];
+          handleErrors(error, errors);
+          this.errors = this.errors.concat(errors);
         });
     },
     fetchCategories(){
