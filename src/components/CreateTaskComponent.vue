@@ -1,6 +1,7 @@
 <template>
-    <div class="bg-blue-500 min-h-screen py-4 flex items-center justify-center overflow-y-auto">
-      <div class="w-full max-w-md rounded-lg bg-white p-8 shadow-lg dark:bg-neutral-700 -translate-y-8 transform scale-110">
+    <div class="bg-blue-500 min-h-screen py-4 overflow-y-auto mb-10">
+    <div class="flex justify-center">
+      <div class="w-full max-w-md rounded-lg bg-white p-8 shadow-lg dark:bg-neutral-700 -translate-y-8 transform scale-110 mt-20 mb-12">
         <form @submit.prevent="submitForm">
           <!-- Name input -->
           <div class="relative mb-6">
@@ -156,6 +157,7 @@
           </button>
         </form>
       </div>
+    </div>
     </div>
 </template>
   

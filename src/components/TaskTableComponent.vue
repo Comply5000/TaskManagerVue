@@ -92,7 +92,7 @@
             </router-link>
           </div>
       </div>
-      <div class="container mx-auto">
+      <div class="container mx-auto mb-8">
         <div class="overflow-x-auto">
           <div class="min-w-max">
             <div class="w-max mx-auto bg-white rounded-lg shadow-lg">

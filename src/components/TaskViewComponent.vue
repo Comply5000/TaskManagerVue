@@ -63,7 +63,7 @@
         <div class="flex flex-col">
           <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-              <div class="overflow-hidden">
+              <div class="overflow-hidden mb-12">
                 <table class="min-w-full text-left text-sm font-light mb-2">
                   <thead
                     class="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
