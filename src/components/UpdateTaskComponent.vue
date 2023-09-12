@@ -155,7 +155,7 @@ export default {
       
       const token = localStorage.getItem('jwt');
 
-        axios.put(`/todo-tasks/${taskId}`, this.formData ,{
+        axios.put(`/tasks/${taskId}`, this.formData ,{
           headers: {
               'Authorization': `Bearer ${token}`,
             }
@@ -173,13 +173,13 @@ export default {
     fetchCategories(){
         const token = localStorage.getItem('jwt');
 
-        axios.get(`/todo-task-categories`, {
+        axios.get(`/task-categories`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         })
         .then(response => {
-          this.categories = response.data.todoTaskCategories;
+          this.categories = response.data.taskCategories;
         })
         .catch(error => {
           console.error('Błąd pobierania danych:', error);
@@ -188,7 +188,7 @@ export default {
     fetchStatus(){
         const token = localStorage.getItem('jwt');
 
-        axios.get(`/enums/todo-task-status`, {
+        axios.get(`/enums/task-status`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -204,18 +204,18 @@ export default {
         this.errors = [];
         const token = localStorage.getItem('jwt');
         const taskId = localStorage.getItem('taskId');
-        axios.get(`/todo-tasks/${taskId}/update`, {
+        axios.get(`/tasks/${taskId}/update`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         })
         .then(response => {
-            this.formData.name = response.data.todoTask.name;
-            this.formData.description = response.data.todoTask.description;
-            this.formData.status = response.data.todoTask.status;
-            this.formData.categoryId = response.data.todoTask.categoryId;
+            this.formData.name = response.data.task.name;
+            this.formData.description = response.data.task.description;
+            this.formData.status = response.data.task.status;
+            this.formData.categoryId = response.data.task.categoryId;
 
-            const momentDatetimeoffset = moment(response.data.todoTask.deadline);
+            const momentDatetimeoffset = moment(response.data.task.deadline);
             const momentWarsawTime = momentDatetimeoffset.tz("Europe/Warsaw");
             this.formData.deadline = momentWarsawTime.format("YYYY-MM-DDTHH:mm");
         })

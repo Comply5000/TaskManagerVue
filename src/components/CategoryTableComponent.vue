@@ -152,7 +152,7 @@
       createCategory() {
         this.errors = [];
         const token = localStorage.getItem('jwt');
-        axios.post(`/todo-task-categories`, this.categoryData, {
+        axios.post(`/task-categories`, this.categoryData, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -172,13 +172,13 @@
       fetchCategories(){
         const token = localStorage.getItem('jwt');
 
-        axios.get(`/todo-task-categories`, {
+        axios.get(`/task-categories`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         })
         .then(response => {
-          this.categories = response.data.todoTaskCategories;
+          this.categories = response.data.taskCategories;
         })
         .catch(error => {
           console.error('Błąd pobierania danych:', error);
@@ -195,7 +195,7 @@
         {
           const token = localStorage.getItem('jwt');
 
-          axios.delete(`/todo-task-categories/${categoryId}`, {
+          axios.delete(`/task-categories/${categoryId}`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }

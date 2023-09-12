@@ -282,13 +282,13 @@
       fetchCategories(){
         const token = localStorage.getItem('jwt');
 
-        axios.get(`/todo-task-categories`, {
+        axios.get(`/task-categories`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         })
         .then(response => {
-          this.categories = response.data.todoTaskCategories;
+          this.categories = response.data.taskCategories;
         })
         .catch(error => {
           console.error('Błąd pobierania danych:', error);
@@ -297,7 +297,7 @@
       fetchOrderBy(){
         const token = localStorage.getItem('jwt');
 
-        axios.get(`/enums/todo-task-order-by`, {
+        axios.get(`/enums/task-order-by`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -313,7 +313,7 @@
       fetchStatus(){
         const token = localStorage.getItem('jwt');
 
-        axios.get(`/enums/todo-task-status`, {
+        axios.get(`/enums/task-status`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -328,7 +328,7 @@
       fetchData(pageNumber) {
         const token = localStorage.getItem('jwt');
   
-        axios.get(`/todo-tasks`, {
+        axios.get(`/tasks`, {
           params: {
             pageNumber: pageNumber,
             pageSize: this.pageSize,
@@ -343,9 +343,9 @@
           }
         })
         .then(response => {
-          this.tasks = response.data.todoTasks.items;
-          this.totalPages = response.data.todoTasks.totalPages;
-          this.currentPage = response.data.todoTasks.pageIndex;
+          this.tasks = response.data.tasks.items;
+          this.totalPages = response.data.tasks.totalPages;
+          this.currentPage = response.data.tasks.pageIndex;
         })
         .catch(error => {
           console.error('Błąd pobierania danych:', error);
@@ -386,7 +386,7 @@
         {
           const token = localStorage.getItem('jwt');
 
-          axios.delete(`/todo-tasks/${taskId}`, {
+          axios.delete(`/tasks/${taskId}`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }

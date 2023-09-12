@@ -83,7 +83,7 @@
         this.errors = [];
         const token = localStorage.getItem('jwt');
         const categoryId = localStorage.getItem('categoryId');
-        axios.put(`/todo-task-categories/${categoryId}`, this.categoryData, {
+        axios.put(`/task-categories/${categoryId}`, this.categoryData, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -103,14 +103,14 @@
         this.errors = [];
         const token = localStorage.getItem('jwt');
         const categoryId = localStorage.getItem('categoryId');
-        axios.get(`/todo-task-categories/${categoryId}/update`, {
+        axios.get(`/task-categories/${categoryId}/update`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         })
         .then(response => {
-            this.categoryData.name = response.data.todoTaskCategory.name;
-            this.categoryData.description = response.data.todoTaskCategory.description;
+            this.categoryData.name = response.data.taskCategory.name;
+            this.categoryData.description = response.data.taskCategory.description;
         })
         .catch(error => {
             const errors = [];

@@ -142,22 +142,22 @@ import axios from '../../config.js';
         this.errors = [];
         const token = localStorage.getItem('jwt');
         const taskId = localStorage.getItem('taskId');
-        axios.get(`/todo-tasks/${taskId}`, {
+        axios.get(`/tasks/${taskId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         })
         .then(response => {
-            this.id = response.data.todoTask.id;
-            this.name = response.data.todoTask.name;
-            this.description = response.data.todoTask.description;
-            this.status = response.data.todoTask.status;
-            this.category = response.data.todoTask.category;
-            this.deadline = response.data.todoTask.deadline;
-            this.createdAt = response.data.todoTask.createdAt;
-            this.lastModifiedAt = response.data.todoTask.lastModifiedAt;
-            this.isLessThenDay = response.data.todoTask.isLessThenDay;
-            this.files = response.data.todoTask.files;
+            this.id = response.data.task.id;
+            this.name = response.data.task.name;
+            this.description = response.data.task.description;
+            this.status = response.data.task.status;
+            this.category = response.data.task.category;
+            this.deadline = response.data.task.deadline;
+            this.createdAt = response.data.task.createdAt;
+            this.lastModifiedAt = response.data.task.lastModifiedAt;
+            this.isLessThenDay = response.data.task.isLessThenDay;
+            this.files = response.data.task.files;
         })
         .catch(error => {
             const errors = [];
@@ -201,7 +201,7 @@ import axios from '../../config.js';
         {
           const token = localStorage.getItem('jwt');
 
-          axios.delete(`/todo-tasks/${this.id}`, {
+          axios.delete(`/tasks/${this.id}`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }

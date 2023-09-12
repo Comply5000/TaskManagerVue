@@ -205,7 +205,7 @@ export default {
 
       const token = localStorage.getItem('jwt');
 
-        axios.post(`/todo-tasks`, formData ,{
+        axios.post(`/tasks`, formData ,{
           headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'multipart/form-data' 
@@ -214,6 +214,7 @@ export default {
         .then(response => {
           localStorage.setItem("taskId", response.data.id);
           this.$router.push('/main/task'); 
+          this.$store.dispatch('showMessage', { message: 'Task updated successfully.'});
         })
         .catch(error => {
             const errors = [];
@@ -224,13 +225,13 @@ export default {
     fetchCategories(){
         const token = localStorage.getItem('jwt');
 
-        axios.get(`/todo-task-categories`, {
+        axios.get(`/task-categories`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         })
         .then(response => {
-          this.categories = response.data.todoTaskCategories;
+          this.categories = response.data.taskCategories;
         })
         .catch(error => {
           console.error('Błąd pobierania danych:', error);
@@ -239,7 +240,7 @@ export default {
     fetchStatus(){
         const token = localStorage.getItem('jwt');
 
-        axios.get(`/enums/todo-task-status`, {
+        axios.get(`/enums/task-status`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
