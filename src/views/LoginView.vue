@@ -63,13 +63,18 @@
         </div>
       </div>
     </div>
+    <LoadingComponent ref="cogwheel" />
   </div>
 </template>
 
 <script>
 import axios from '../../config.js';
+import LoadingComponent from '@/components/LoadingComponent.vue';
 
 export default {
+  components: {
+    LoadingComponent
+  },
   data() {
     return {
       formData: {
@@ -83,13 +88,15 @@ export default {
   methods: {
     submitForm() {
       this.error = null;
-
+      this.$refs.cogwheel.show();
       axios.post(`/account/sign-in`, this.formData)
         .then(response => {
+          this.$refs.cogwheel.show();
           localStorage.setItem('jwt', response.data.accessToken);
           this.$router.push('/main'); 
         })
         .catch(error => {
+          this.$refs.cogwheel.show();
           if (error.response && error.response.status === 400) {
             // Wyłapanie błędu 400
             this.error = 'Invalid credentials. Try again';

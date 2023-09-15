@@ -214,6 +214,7 @@
         </div>
       </div>
       <MessageComponent />
+      <LoadingComponent ref="cogwheel" />
     </div>
 </template>
 
@@ -229,7 +230,8 @@
   
   export default {
     components: {
-      MessageComponent
+      MessageComponent,
+      LoadingComponent
     },
     data() {
       return {
@@ -281,7 +283,6 @@
     methods: {
       fetchCategories(){
         const token = localStorage.getItem('jwt');
-
         axios.get(`/task-categories`, {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -326,6 +327,7 @@
         });
       },
       fetchData(pageNumber) {
+        this.$refs.cogwheel.show();
         const token = localStorage.getItem('jwt');
   
         axios.get(`/tasks`, {
@@ -343,11 +345,13 @@
           }
         })
         .then(response => {
+          this.$refs.cogwheel.hide();
           this.tasks = response.data.tasks.items;
           this.totalPages = response.data.tasks.totalPages;
           this.currentPage = response.data.tasks.pageIndex;
         })
         .catch(error => {
+          this.$refs.cogwheel.hide();
           console.error('Błąd pobierania danych:', error);
         });
       },
@@ -380,7 +384,7 @@
         this.$router.push('/main/update-task'); 
       },
       deleteTask(taskId) {
-        const userConfirmed = window.confirm('Are you sure you want to delete this item?');
+        const userConfirmed = window.confirm('Are you sure you want to delete this task?');
 
         if(userConfirmed)
         {

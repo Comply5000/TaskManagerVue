@@ -95,13 +95,18 @@
         </ul>
       </div>
     </div>
+    <LoadingComponent ref="cogwheel" />
   </div>
 </template>
 
 <script>
 import axios from '../../config.js';
+import LoadingComponent from '@/components/LoadingComponent.vue';
 
 export default {
+  components: {
+    LoadingComponent
+  },
   data() {
     return {
       formData: {
@@ -116,13 +121,15 @@ export default {
   methods: {
     submitForm() {
       this.errors = [];
-
+      this.$refs.cogwheel.show();
       axios.post(`/account/sign-up`, this.formData)
         .then(response => {
+          this.$refs.cogwheel.hide();
           localStorage.setItem('registerMessage', 'Account has been successfully created. Sign in');
           this.$router.push('/');
         })
         .catch(error => {
+          this.$refs.cogwheel.hide();
           if (error.response && error.response.status === 400) {
             if (error.response.data.errors) {
               // Obsługa błędów z formatem { errors: { field: [errorMsg1, errorMsg2, ...] } }

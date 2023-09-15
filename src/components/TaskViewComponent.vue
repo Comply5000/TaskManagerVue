@@ -110,6 +110,7 @@
         </div>
       </div>
       <MessageComponent />
+      <LoadingComponent ref="cogwheel" />
     </div>
 </template>
   
@@ -121,7 +122,8 @@ import axios from '../../config.js';
 
   export default {
     components: {
-      MessageComponent
+      MessageComponent,
+      LoadingComponent
     },
     data() {
       return {
@@ -195,7 +197,7 @@ import axios from '../../config.js';
       },
       deleteTask()
       {
-        const userConfirmed = window.confirm('Are you sure you want to delete this item?');
+        const userConfirmed = window.confirm('Are you sure you want to delete this task?');
 
         if(userConfirmed)
         {
@@ -248,6 +250,7 @@ import axios from '../../config.js';
           // Przykładowo, można to zrobić przy użyciu Axios:
           const formData = new FormData();
           formData.append("file", selectedFile);
+          this.$refs.cogwheel.show();
 
           const token = localStorage.getItem('jwt');
 
@@ -258,10 +261,12 @@ import axios from '../../config.js';
             }
           })
           .then(response => {
+            this.$refs.cogwheel.hide();
             this.getTask();
             this.$store.dispatch('showMessage', { message: 'File added successfully.'});
           })
           .catch(error => {
+            this.$refs.cogwheel.hide();
             console.error('Błąd pobierania danych:', error);
           });
         }

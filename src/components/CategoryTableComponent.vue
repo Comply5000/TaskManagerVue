@@ -115,6 +115,7 @@
         </div>
       </div>
       <MessageComponent />
+      <LoadingComponent ref="cogwheel" />
 </div>
 </template>
 
@@ -134,8 +135,8 @@
   
   export default {
     components: {
-      MessageComponent
-    // Pozostałe komponenty
+      MessageComponent,
+      LoadingComponent,
     },
     data() {
       return {
@@ -151,6 +152,7 @@
     methods: {
       createCategory() {
         this.errors = [];
+        this.$refs.cogwheel.show();
         const token = localStorage.getItem('jwt');
         axios.post(`/task-categories`, this.categoryData, {
           headers: {
@@ -158,12 +160,14 @@
           }
         })
         .then(response => {
+          this.$refs.cogwheel.hide();
           this.fetchCategories();
           this.categoryData.name = '';
           this.categoryData.description = '';
           this.$store.dispatch('showMessage', { message: 'Category created successfully.'});
         })
         .catch(error => {
+            this.$refs.cogwheel.hide();
             const errors = [];
             handleErrors(error, errors);
             this.errors = this.errors.concat(errors);

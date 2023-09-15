@@ -40,12 +40,20 @@
           <!-- Status select (lista rozwijana) -->
           <div class="relative mb-6">
             <select
+              v-if="taskStatus.length"
               class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder-opacity-100 data-[te-input-state-active]:placeholder-opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder-text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder-opacity-0"
               id="statusSelect"
-              v-if="taskStatus.length"
               v-model="formData.status"
             >
               <option v-for="s in taskStatus" :key="s.id" :value="s.id">{{ s.name }}</option>
+            </select>
+            <select
+              v-else
+              class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder-opacity-100 data-[te-input-state-active]:placeholder-opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder-text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder-opacity-0"
+              id="statusSelect"
+              v-model="formData.status"
+            >
+              <option value="" disabled>Select Status</option>
             </select>
             <label
               for="statusSelect"
@@ -59,12 +67,20 @@
           <!-- Category select (lista rozwijana) -->
           <div class="relative mb-6">
             <select
+              v-if="categories.length"
               class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder-opacity-100 data-[te-input-state-active]:placeholder-opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder-text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder-opacity-0"
               id="categorySelect"
-              v-if="categories.length"
               v-model="formData.categoryId"
             >
-            <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+              <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+            </select>
+            <select
+              v-else
+              class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder-opacity-100 data-[te-input-state-active]:placeholder-opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder-text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder-opacity-0"
+              id="categorySelect"
+              v-model="formData.categoryId"
+            >
+              <option value="" disabled>Select Category</option>
             </select>
             <label
               for="categorySelect"
