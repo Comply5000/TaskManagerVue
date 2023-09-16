@@ -85,7 +85,7 @@
             <label
               for="categorySelect"
               class="absolute left-3 top-[-1.25rem] mb-0 max-w-[90%] truncate pt-[0.37rem] leading-[1.4] text-sm text-neutral-500 transition-all duration-200 ease-out"
-              :class="{ 'text-primary': formData.category, 'peer-focus:text-primary': !formData.category }"
+              :class="{ 'text-primary': formData.categoryId, 'peer-focus:text-primary': !formData.categoryId }"
             >
               Category
             </label>
@@ -258,6 +258,7 @@ export default {
         })
         .then(response => {
           this.categories = response.data.taskCategories;
+          this.formData.categoryId = response.data.taskCategories[0].id;
         })
         .catch(error => {
           console.error('Błąd pobierania danych:', error);

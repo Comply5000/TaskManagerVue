@@ -124,6 +124,7 @@
   import { handleErrors } from '../../errorHandler.js';
   import { mapActions } from 'vuex';
   import MessageComponent from '@/components/MessageComponent.vue';
+  import LoadingComponent from '@/components/LoadingComponent.vue';
 
   import {
     Input,

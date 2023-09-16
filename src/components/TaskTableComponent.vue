@@ -224,6 +224,7 @@
   import axios from '../../config.js';
   import moment from 'moment-timezone';
   import MessageComponent from '@/components/MessageComponent.vue';
+  import LoadingComponent from '@/components/LoadingComponent.vue';
 
   import { Select, initTE } from "tw-elements";
   initTE({ Select });

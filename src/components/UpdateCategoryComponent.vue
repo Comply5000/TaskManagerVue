@@ -70,12 +70,14 @@
       </div>
       </div>
     </div>  
+    <LoadingComponent ref="cogwheel" />
 </div>   
 </template>
 
 <script>
   import axios from '../../config.js';
   import { handleErrors } from '../../errorHandler.js';
+  import LoadingComponent from '@/components/LoadingComponent.vue';
 
   import {
     Input,
@@ -86,6 +88,9 @@
 
   
   export default {
+    components: {
+      LoadingComponent, // Dodaj komponent zębatki do sekcji "components"
+    },
     data() {
       return {
         errors: [],
@@ -97,7 +102,8 @@
     },
     methods: {
       updateCategory() {
-        this.errors = [];
+        this.errors = [];   
+        this.$refs.cogwheel.show(); 
         const token = localStorage.getItem('jwt');
         const categoryId = localStorage.getItem('categoryId');
         axios.put(`/task-categories/${categoryId}`, this.categoryData, {
@@ -105,13 +111,15 @@
             'Authorization': `Bearer ${token}`
           }
         })
-        .then(response => {
+        .then(response => {      
+            this.$refs.cogwheel.hide();
             localStorage.removeItem('categoryId');
             this.$router.push('/main/categories'); 
             this.$store.dispatch('showMessage', { message: 'Category updated successfully.'});
         })
         .catch(error => {
             const errors = [];
+            this.$refs.cogwheel.hide();
             handleErrors(error, errors);
             this.errors = this.errors.concat(errors);
         });

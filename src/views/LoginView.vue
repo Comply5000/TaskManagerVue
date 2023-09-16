@@ -96,7 +96,7 @@ export default {
           this.$router.push('/main'); 
         })
         .catch(error => {
-          this.$refs.cogwheel.show();
+          this.$refs.cogwheel.hide();
           if (error.response && error.response.status === 400) {
             // Wyłapanie błędu 400
             this.error = 'Invalid credentials. Try again';

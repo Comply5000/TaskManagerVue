@@ -26,7 +26,7 @@
         </div>
         <div class="mb-2">
             <span style="display: inline-block;">
-                <b>Deadline:</b> <span :style="{ color: isLessThenDay ? '#FF0000' : '' }">{{ deadline ? formatDateWithHours(createdAt) : '' }}</span>
+                <b>Deadline:</b> <span :style="{ color: isLessThenDay ? '#FF0000' : '' }">{{ deadline ? formatDateWithHours(deadline) : '' }}</span>
             </span>
         </div>
         <div class="mb-2"><b>Created At:</b> {{ createdAt ? formatDateWithHours(createdAt) : '' }}</div>
@@ -119,6 +119,7 @@ import axios from '../../config.js';
   import moment from 'moment-timezone';
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
   import MessageComponent from '@/components/MessageComponent.vue';
+  import LoadingComponent from '@/components/LoadingComponent.vue';
 
   export default {
     components: {

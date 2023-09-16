@@ -85,7 +85,7 @@
             <label
               for="categorySelect"
               class="absolute left-3 top-[-1.25rem] mb-0 max-w-[90%] truncate pt-[0.37rem] leading-[1.4] text-sm text-neutral-500 transition-all duration-200 ease-out"
-              :class="{ 'text-primary': formData.category, 'peer-focus:text-primary': !formData.category }"
+              :class="{ 'text-primary': formData.categoryId, 'peer-focus:text-primary': !formData.categoryId }"
             >
               Category
             </label>
@@ -131,6 +131,7 @@
         </form>
       </div>
     </div>
+      <LoadingComponent ref="cogwheel" />
     </div>
 </template>
   
@@ -138,12 +139,16 @@
 import moment from 'moment';
 import axios from '../../config.js';
 import { handleErrors } from '../../errorHandler.js';
+import LoadingComponent from '@/components/LoadingComponent.vue';
 
 import { Ripple, Input, initTE } from "tw-elements";
   
 initTE({ Ripple, Input });
   
 export default {
+  components: {
+    LoadingComponent, // Dodaj komponent zębatki do sekcji "components"
+  },
   data() {
     return {
       formData:{
@@ -163,8 +168,8 @@ export default {
   methods: {
     submitForm() {
       this.errors = [];
+      this.$refs.cogwheel.show();
       const taskId = localStorage.getItem('taskId');
-
 
       const momentDate = moment(this.formData.deadline, 'YYYY-MM-DDTHH:mm');
       const formattedDate = momentDate.isValid() ? momentDate.toISOString() : '';
@@ -179,10 +184,12 @@ export default {
             }
         })
         .then(response => {
+          this.$refs.cogwheel.hide();
           this.$router.push('/main/task'); 
           this.$store.dispatch('showMessage', { message: 'Task updated successfully.'});
         })
         .catch(error => {
+            this.$refs.cogwheel.hide();
             const errors = [];
             handleErrors(error, errors);
             this.errors = this.errors.concat(errors);
