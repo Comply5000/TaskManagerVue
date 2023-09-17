@@ -63,6 +63,33 @@
               Status
             </label>
           </div>
+
+          <!-- Priority select (lista rozwijana) -->
+          <div class="relative mb-6">
+            <select
+              v-if="taskPriority.length"
+              class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder-opacity-100 data-[te-input-state-active]:placeholder-opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder-text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder-opacity-0"
+              id="prioritySelect"
+              v-model="formData.priority"
+            >
+              <option v-for="p in taskPriority" :key="p.id" :value="p.id">{{ p.name }}</option>
+            </select>
+            <select
+              v-else
+              class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder-opacity-100 data-[te-input-state-active]:placeholder-opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder-text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder-opacity-0"
+              id="prioritySelect"
+              v-model="formData.priority"
+            >
+              <option value="" disabled>Select Priority</option>
+            </select>
+            <label
+              for="prioritySelect"
+              class="absolute left-3 top-[-1.25rem] mb-0 max-w-[90%] truncate pt-[0.37rem] leading-[1.4] text-sm text-neutral-500 transition-all duration-200 ease-out"
+              :class="{ 'text-primary': formData.priority, 'peer-focus:text-primary': !formData.priority }"
+            >
+              Priority
+            </label>
+          </div>
   
           <!-- Category select (lista rozwijana) -->
           <div class="relative mb-6">
@@ -154,7 +181,8 @@ export default {
       formData:{
         name: "",
         deadline: "",
-        status: "",
+        status: null,
+        priority: null,
         categoryId: null,
         description: "",
       },
@@ -162,7 +190,8 @@ export default {
       files: [],
       errors: [],
       taskStatus: [],
-      categories: []
+      categories: [],
+      taskPriority: []
     };
   },
   methods: {
@@ -225,6 +254,22 @@ export default {
           console.error('Błąd pobierania danych:', error);
         });
     },
+    fetchPriority(){
+        const token = localStorage.getItem('jwt');
+
+        axios.get(`/enums/task-priority`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(response => {
+          this.taskPriority = response.data;
+          this.formData.priority = response.data[0].id;
+        })
+        .catch(error => {
+          console.error('Błąd pobierania danych:', error);
+        });
+    },
     getTask(){
         this.errors = [];
         const token = localStorage.getItem('jwt');
@@ -238,6 +283,7 @@ export default {
             this.formData.name = response.data.task.name;
             this.formData.description = response.data.task.description;
             this.formData.status = response.data.task.status;
+            this.formData.priority = response.data.task.priority;
             this.formData.categoryId = response.data.task.categoryId;
 
             const momentDatetimeoffset = moment(response.data.task.deadline);
@@ -254,6 +300,7 @@ export default {
   mounted() {
       this.fetchStatus();
       this.fetchCategories();
+      this.fetchPriority();
       this.getTask();
     },
 };

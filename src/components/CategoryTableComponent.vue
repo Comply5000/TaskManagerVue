@@ -1,7 +1,7 @@
 <template>
 <div class="bg-blue-500 min-h-screen py-8 overflow-y-auto"> 
     <div class="container mx-auto">
-      <div class="bg-white rounded-lg shadow-lg p-4">
+      <div class="bg-white rounded-lg shadow-lg pt-4 pr-4 pl-4">
         <form @submit.prevent="addCategory">
           <div class="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
             <div class="relative flex-1">
@@ -15,11 +15,12 @@
               <label
                 for="name"
                 class="absolute left-2 top-2 text-gray-600 transition-all duration-300"
-                :class="{ 'text-xs': categoryData.name }"
+                :class="{ 'text-primary': categoryData.name, 'peer-focus:text-primary': !categoryData.name }"
               >
                 Name:
               </label>
             </div>
+            
             <div class="relative flex-1">
               <input
                 v-model="categoryData.description"
@@ -30,9 +31,25 @@
               <label
                 for="description"
                 class="absolute left-2 top-2 text-gray-600 transition-all duration-300"
-                :class="{ 'text-xs': categoryData.description }"
+                :class="{ 'text-primary': categoryData.description, 'peer-focus:text-primary': !categoryData.description }"
               >
                 Description:
+              </label>
+            </div>
+
+            <div class="relative flex-1">
+              <input
+                v-model="categoryData.pageUrl"
+                type="text"
+                id="pageUrl"
+                class="mt-8 pl-2 py-1 text-base border-b border-gray-300 focus:border-blue-600 focus:outline-none"
+              />
+              <label
+                for="pageUrl"
+                class="absolute left-2 top-2 text-gray-600 transition-all duration-300"
+                :class="{ 'text-primary': categoryData.pageUrl, 'peer-focus:text-primary': !categoryData.pageUrl }"
+              >
+                Page URL:
               </label>
             </div>
             <button 
@@ -80,7 +97,9 @@
                         'dark:bg-neutral-700': true
                       }"
                     >
-                      <td class="whitespace-nowrap px-6 py-4 font-medium text-center">{{ category.name }}</td>
+                      <td class="whitespace-nowrap px-6 py-4 font-medium text-center cursor-pointer">
+                        <a :href="category.pageUrl" target="_blank">{{ category.name }}</a>
+                      </td>
                       <td class="whitespace-nowrap px-6 py-4 text-center">{{ category.description }}</td>
                       <td class="whitespace-nowrap px-6 py-4 text-center">
                         <div class="relative">
@@ -144,7 +163,8 @@
         errors: [],
         categoryData: {
             name: '',
-            description: ''
+            description: '',
+            pageUrl: ''
         },
         categories: [],
         showOptions: null,
@@ -165,6 +185,7 @@
           this.fetchCategories();
           this.categoryData.name = '';
           this.categoryData.description = '';
+          this.categoryData.pageUrl = '';
           this.$store.dispatch('showMessage', { message: 'Category created successfully.'});
         })
         .catch(error => {

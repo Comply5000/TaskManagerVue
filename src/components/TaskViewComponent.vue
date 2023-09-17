@@ -21,7 +21,12 @@
       </div>
         <div class="mb-2">
             <span style="display: inline-block;">
-                <b mr-10>Status:</b> <span :class="getStatusClass(status ? status.id : null)">{{ status ? status.name : 'Brak danych' }}</span>
+                <b mr-10>Status:</b> <span :class="getStatusClass(status ? status.id : null)">{{ status ? status.name : 'No data' }}</span>
+            </span>
+        </div>
+        <div class="mb-2">
+            <span style="display: inline-block;">
+                <b mr-10>Priority:</b> <span :class="getStatusClass(priority ? priority.id : null)">{{ priority ? priority.name : 'No data' }}</span>
             </span>
         </div>
         <div class="mb-2">
@@ -34,7 +39,11 @@
         <div class="mb-2"><b>Description:</b> {{ description ? description : '' }}</div>
         <div class="mb-2">
             <b>Category</b>
-            <p class="mb-1 ml-4"><b>Name:</b> {{ category ? category.name : '' }}</p>
+            <p class="mb-1 ml-4">
+              <b>Name:</b>
+              <a class="cursor-pointer" v-if="category && category.pageUrl" :href="category.pageUrl" target="_blank">{{ category.name }}</a>
+              <span v-else>{{ category ? category.name : '' }}</span>
+            </p>
             <p class="mb-1 ml-4"><b>Description:</b> {{ category ? category.description : '' }}</p>
         </div>
 
@@ -91,7 +100,7 @@
                       >
                         {{ file.name }}
                       </td>
-                      <td class="whitespace-nowrap px-6 py-4 text-center">{{ file.totalSize }} B</td>
+                      <td class="whitespace-nowrap px-6 py-4 text-center">{{ file.size.value }} {{ file.size.unit }}</td>
                       <td class="whitespace-nowrap px-6 py-4 text-center">
                         <button
                           type="button"
@@ -131,6 +140,7 @@ import axios from '../../config.js';
         id: '',
         name: '',
         status: null,
+        priority: null,
         deadline: '',
         createdAt: '',
         lastModifiedAt: '',
@@ -143,6 +153,7 @@ import axios from '../../config.js';
     methods: {
       getTask() {
         this.errors = [];
+        this.$refs.cogwheel.show();
         const token = localStorage.getItem('jwt');
         const taskId = localStorage.getItem('taskId');
         axios.get(`/tasks/${taskId}`, {
@@ -151,10 +162,12 @@ import axios from '../../config.js';
           }
         })
         .then(response => {
+            this.$refs.cogwheel.hide();
             this.id = response.data.task.id;
             this.name = response.data.task.name;
             this.description = response.data.task.description;
             this.status = response.data.task.status;
+            this.priority = response.data.task.priority;
             this.category = response.data.task.category;
             this.deadline = response.data.task.deadline;
             this.createdAt = response.data.task.createdAt;
@@ -164,6 +177,7 @@ import axios from '../../config.js';
         })
         .catch(error => {
             const errors = [];
+            this.$refs.cogwheel.hide();
             handleErrors(error, errors);
             this.errors = this.errors.concat(errors);
         });

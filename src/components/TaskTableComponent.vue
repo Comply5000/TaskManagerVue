@@ -43,6 +43,17 @@
               <option v-for="s in taskStatus" :key="s.id" :value="s.id">{{ s.name }}</option>
             </select>
             <div v-else>Loading...</div>
+            <!--Priorytet-->
+            <select
+              v-if="taskPriority.length"
+              v-model="selectedPriority"
+              @change="fetchData(1)"
+              class="ml-4 w-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option value="null" selected>Priority</option>
+              <option v-for="p in taskPriority" :key="p.id" :value="p.id">{{ p.name }}</option>
+            </select>
+            <div v-else>Loading...</div>
             <!-- Kategorie -->
             <select
               v-if="categories.length"
@@ -50,7 +61,7 @@
               @change="fetchData(1)"
               class="mr-4 ml-4 w-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-              <option value="null" selected>Categories</option>
+              <option value="null" selected>Category</option>
               <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
             </select>
             <div v-else>Loading...</div>
@@ -102,10 +113,10 @@
                     <tr>
                       <th scope="col" class="px-6 py-4 text-center">Name</th>
                       <th scope="col" class="px-6 py-4 text-center">Status</th>
+                      <th scope="col" class="px-6 py-4 text-center">Priority</th>
                       <th scope="col" class="px-6 py-4 text-center">Category</th>
                       <th scope="col" class="px-6 py-4 text-center">Deadline</th>
                       <th scope="col" class="px-6 py-4 text-center">Created At</th>
-                      <th scope="col" class="px-6 py-4 text-center">Last Modified At</th>
                       <th scope="col" class="px-6 py-4 text-center">Action</th>
                     </tr>
                   </thead>
@@ -131,6 +142,9 @@
                       <td :class="getStatusClass(task.status.id)" class="text-center">
                         {{ task.status.name }}
                       </td>
+                      <td :class="getStatusClass(task.priority.id)" class="text-center">
+                        {{ task.priority.name }}
+                      </td>
                       <td class="whitespace-nowrap px-6 py-4 text-center">{{ task.categoryName }}</td>
                       <td
                         class="whitespace-nowrap px-6 py-4 text-center"
@@ -139,7 +153,6 @@
                         {{ formatDateWithHours(task.deadline) }}
                       </td>
                       <td class="whitespace-nowrap px-6 py-4 text-center">{{ formatDate(task.createdAt) }}</td>               
-                      <td class="whitespace-nowrap px-6 py-4 text-center">{{ formatDate(task.lastModifiedAt) }}</td>
                       <td class="whitespace-nowrap px-6 py-4 text-center">
                         <div class="relative">
                           <button @click="showOptions = (showOptions === task.id ? null : task.id)" class="text-gray-400 hover:text-gray-600 focus:outline-none">
@@ -247,6 +260,9 @@
         taskStatus: [], // Tablica do przechowywania danych z endpointu
         selectedStatus: null,
 
+        taskPriority: [], // Tablica do przechowywania danych z endpointu
+        selectedPriority: null,
+
         categories: [],
         selectedCategory: null,
 
@@ -265,6 +281,12 @@
       selectedStatus(newValue) {
         if (newValue === "null") {
           this.selectedStatus = null;
+          this.fetchData(1)
+        } 
+      },
+      selectedPriority(newValue) {
+        if (newValue === "null") {
+          this.selectedPriority = null;
           this.fetchData(1)
         } 
       },
@@ -327,6 +349,21 @@
           console.error('Błąd pobierania danych:', error);
         });
       },
+      fetchPriority(){
+        const token = localStorage.getItem('jwt');
+
+        axios.get(`/enums/task-priority`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(response => {
+          this.taskPriority = response.data;
+        })
+        .catch(error => {
+          console.error('Błąd pobierania danych:', error);
+        });
+      },
       fetchData(pageNumber) {
         this.$refs.cogwheel.show();
         const token = localStorage.getItem('jwt');
@@ -338,6 +375,7 @@
             search: (this.searchQuery || '').trim(),
             categoryId: this.selectedCategory,
             status: this.selectedStatus,
+            priority: this.selectedPriority,
             orderBy: this.selectedOrderBy,
             isOrderByDesc: this.isOrderByDesc
           },
@@ -438,6 +476,7 @@
         this.searchQuery = null;
         this.selectedCategory = null;
         this.selectedStatus = null;
+        this.selectedPriority = null;
         this.selectedOrderBy = 1;
         this.isOrderByDesc = false;
         this.fetchData(1);
@@ -446,6 +485,7 @@
     mounted() {
       this.fetchData(this.currentPage);
       this.fetchStatus();
+      this.fetchPriority();
       this.fetchCategories();
       this.fetchOrderBy();
     },
