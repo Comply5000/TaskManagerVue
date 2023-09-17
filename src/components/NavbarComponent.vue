@@ -48,12 +48,12 @@
             data-te-navbar-nav-ref>
             <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
               <!-- Dashboard link -->
-              <router-link to="/main" class="text-xl text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400">
+              <router-link to="/dashboard" class="text-xl text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400">
                 Tasks</router-link>
             </li>
             <!-- Team link -->
             <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-                <router-link to="/main/categories" class="text-xl text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400">
+                <router-link to="/dashboard/categories" class="text-xl text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400">
                     Categories</router-link>
             </li>
           </ul>

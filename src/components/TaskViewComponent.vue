@@ -208,7 +208,7 @@ import axios from '../../config.js';
       updateTask()
       {
         localStorage.setItem('taskId', this.id);
-        this.$router.push('/main/update-task'); 
+        this.$router.push('/dashboard/update-task'); 
       },
       deleteTask()
       {
@@ -224,7 +224,7 @@ import axios from '../../config.js';
             }
           })
           .then(response => {
-            this.$router.push('/main'); 
+            this.$router.push('/dashboard'); 
             this.$store.dispatch('showMessage', { message: 'Task deleted successfully.'});
           })
           .catch(error => {

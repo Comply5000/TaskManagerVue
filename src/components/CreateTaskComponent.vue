@@ -268,7 +268,7 @@ export default {
         .then(response => {
           this.$refs.cogwheel.hide();
           localStorage.setItem("taskId", response.data.id);
-          this.$router.push('/main/task'); 
+          this.$router.push('/dashboard/task'); 
           this.$store.dispatch('showMessage', { message: 'Task created successfully.'});
         })
         .catch(error => {

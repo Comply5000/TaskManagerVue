@@ -93,7 +93,7 @@ export default {
         .then(response => {
           this.$refs.cogwheel.show();
           localStorage.setItem('jwt', response.data.accessToken);
-          this.$router.push('/main'); 
+          this.$router.push('/dashboard'); 
         })
         .catch(error => {
           this.$refs.cogwheel.hide();

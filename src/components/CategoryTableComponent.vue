@@ -212,7 +212,7 @@
       },
       updateTask(categoryId) {
         localStorage.setItem('categoryId', categoryId);
-        this.$router.push('/main/update-category'); 
+        this.$router.push('/dashboard/update-category'); 
       },
       deleteCategory(categoryId) {
         const userConfirmed = window.confirm('Are you sure you want to delete this category? It will delete all assigned tasks and files!');

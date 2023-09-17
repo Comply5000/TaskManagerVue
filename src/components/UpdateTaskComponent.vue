@@ -214,7 +214,7 @@ export default {
         })
         .then(response => {
           this.$refs.cogwheel.hide();
-          this.$router.push('/main/task'); 
+          this.$router.push('/dashboard/task'); 
           this.$store.dispatch('showMessage', { message: 'Task updated successfully.'});
         })
         .catch(error => {
