@@ -98,7 +98,7 @@
                       }"
                     >
                       <td class="whitespace-nowrap px-6 py-4 font-medium text-center cursor-pointer">
-                        <a :href="category.pageUrl" target="_blank">{{ category.name }}</a>
+                        <a :href="category.pageUrl" title="Go to page" target="_blank">{{ category.name }}</a>
                       </td>
                       <td class="whitespace-nowrap px-6 py-4 text-center">{{ category.description }}</td>
                       <td class="whitespace-nowrap px-6 py-4 text-center">

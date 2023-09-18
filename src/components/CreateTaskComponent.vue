@@ -152,7 +152,6 @@
               class="my-hidden-input"
               @change="onChange"
               ref="file"
-              accept=".pdf,.jpg,.jpeg,.png"
             />
 
             <label for="fileInput" class="my-file-label">

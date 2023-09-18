@@ -40,8 +40,8 @@
         <div class="mb-2">
             <b>Category</b>
             <p class="mb-1 ml-4">
-              <b>Name:</b>
-              <a class="cursor-pointer" v-if="category && category.pageUrl" :href="category.pageUrl" target="_blank">{{ category.name }}</a>
+              <b>Name: </b>
+              <a class="cursor-pointer" title="Go to page" v-if="category && category.pageUrl" :href="category.pageUrl" target="_blank">{{ category.name }}</a>
               <span v-else>{{ category ? category.name : '' }}</span>
             </p>
             <p class="mb-1 ml-4"><b>Description:</b> {{ category ? category.description : '' }}</p>
@@ -97,6 +97,7 @@
                       <td 
                         class="whitespace-nowrap px-6 py-4 font-medium text-center cursor-pointer"
                         @click="downloadFile(file)"
+                        title="Download"
                       >
                         {{ file.name }}
                       </td>
