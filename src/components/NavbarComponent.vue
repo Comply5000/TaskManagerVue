@@ -142,9 +142,9 @@
                 alt=""
                 loading="lazy" />     --> <!-- Dodaj klasę "flex items-center" do wyrównania ikony -->
                   <!-- User avatar -->
-              <div class="flex items-center avatar-container"> <!-- Dodaj klasę "avatar-container" -->
+              <div class="flex items-center avatar-container mr-2"> <!-- Dodaj klasę "avatar-container" -->
                 <!-- User avatar -->
-                <font-awesome-icon :icon="['fas', 'user']" style="color: #000000; margin-top: 7px; margin-right: 5px;" size="2x" />
+                <font-awesome-icon :icon="['fas', 'user']" style="color: #000000; margin-top: 7px;" size="2x" />
               </div>
             </a>
             <!-- Second dropdown menu -->
