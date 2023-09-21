@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import DashboardView from '../views/DashboardView.vue'
+import ConfirmAccountView from '../views/ConfirmAccountView.vue'
 
 import TaskTableComponent from "@/components/TaskTableComponent.vue";
 import CategoryTableComponent from "@/components/CategoryTableComponent.vue";
@@ -24,6 +25,11 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: RegisterView
+    },
+    {
+      path: '/confirm-account',
+      name: 'confirm-account',
+      component: ConfirmAccountView
     },
     {
       path: '/dashboard',

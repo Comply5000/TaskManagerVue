@@ -51,10 +51,15 @@
         Not a member? <router-link to="/register" class="text-blue-500">Sign up</router-link>
       </div>
       
-      <div v-if="error" class="mt-6">
-        <div class="bg-red-100 text-red-600 py-2 px-4 rounded">
-          {{ error }}
-        </div>
+      <!-- Errors -->
+      <div v-if="errors" class="mt-6">
+          <ul class="error-list">
+            <li v-for="errorMsg in errors" :key="errorMsg" class="error-message">
+              <div class="bg-red-100 text-red-600 py-2 px-4 rounded">
+                  {{ errorMsg }}
+              </div>
+            </li>
+          </ul>
       </div>
 
       <div v-if="message" class="mt-6">
@@ -70,6 +75,7 @@
 <script>
 import axios from '../../config.js';
 import LoadingComponent from '@/components/LoadingComponent.vue';
+import { handleErrors } from '../../errorHandler.js';
 
 export default {
   components: {
@@ -81,29 +87,25 @@ export default {
         emailOrUserName: '',
         password: ''
       },
-      error: null,
+      errors: [],
       message: ''
     };
   },
   methods: {
     submitForm() {
-      this.error = null;
+      this.errors = [];
       this.$refs.cogwheel.show();
       axios.post(`/account/sign-in`, this.formData)
         .then(response => {
-          this.$refs.cogwheel.show();
+          this.$refs.cogwheel.hide();
           localStorage.setItem('jwt', response.data.accessToken);
           this.$router.push('/dashboard'); 
         })
         .catch(error => {
           this.$refs.cogwheel.hide();
-          if (error.response && error.response.status === 400) {
-            // Wyłapanie błędu 400
-            this.error = 'Invalid credentials. Try again';
-          } else {
-            // Inne błędy
-            this.error = 'Sorry, there was a problem connecting to the server. Please try again later.';
-          }
+          const errors = [];
+          handleErrors(error, errors);
+          this.errors = this.errors.concat(errors);
         });
     },
     focusInput(field) {
@@ -115,7 +117,7 @@ export default {
     localStorage.removeItem('registerMessage');
     setTimeout(() => {
       this.message = '';
-    }, 3000);
+    }, 8000);
 
     this.error = localStorage.getItem('message');
     localStorage.removeItem('message');

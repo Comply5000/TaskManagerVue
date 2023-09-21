@@ -125,7 +125,7 @@ export default {
       axios.post(`/account/sign-up`, this.formData)
         .then(response => {
           this.$refs.cogwheel.hide();
-          localStorage.setItem('registerMessage', 'Account has been successfully created. Sign in');
+          localStorage.setItem('registerMessage', 'Your account has been successfully created. To activate it, please check your email.');
           this.$router.push('/');
         })
         .catch(error => {
