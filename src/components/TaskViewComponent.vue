@@ -69,6 +69,17 @@
             </button>
           </div>
         </div>
+
+        <div v-if="errors" class="mt-6">
+            <ul class="error-list">
+              <li v-for="errorMsg in errors" :key="errorMsg" class="error-message">
+                <div class="bg-red-100 text-red-600 py-2 px-4 rounded">
+                  {{ errorMsg }}
+                </div>
+              </li>
+            </ul>
+          </div>
+
         <div class="flex flex-col">
           <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -130,6 +141,7 @@ import axios from '../../config.js';
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
   import MessageComponent from '@/components/MessageComponent.vue';
   import LoadingComponent from '@/components/LoadingComponent.vue';
+  import { handleErrors } from '../../errorHandler.js';
 
   export default {
     components: {
@@ -148,7 +160,8 @@ import axios from '../../config.js';
         description: '',
         category: null,
         isLessThenDay: false,
-        files: []
+        files: [],
+        errors: []
       };
     },
     methods: {
@@ -229,7 +242,7 @@ import axios from '../../config.js';
             this.$store.dispatch('showMessage', { message: 'Task deleted successfully.'});
           })
           .catch(error => {
-            console.error('Błąd pobierania danych:', error);
+            
           });
         }
       },
@@ -283,7 +296,9 @@ import axios from '../../config.js';
           })
           .catch(error => {
             this.$refs.cogwheel.hide();
-            console.error('Błąd pobierania danych:', error);
+            const errors = [];
+            handleErrors(error, errors);
+            this.errors = this.errors.concat(errors);
           });
         }
       },

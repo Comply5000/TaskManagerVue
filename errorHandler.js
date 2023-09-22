@@ -22,7 +22,7 @@ export function handleErrors(error, errorsArray) {
         errorsArray.push('Sorry, there was an error. Please try again.');
       }
     } 
-    else if (error.response && error.response.status === 413)
+    else if (error.response.status === 413) 
     {
       errorsArray.push('The maximum file size for uploads is 10MB.');
     }
