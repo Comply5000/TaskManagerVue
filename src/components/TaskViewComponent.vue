@@ -89,7 +89,7 @@
                     class="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
                     <tr>
                       <th scope="col" class="px-6 py-4 text-center">Name</th>
-                      <th scope="col" class="px-6 py-4 text-center">Size</th>
+                      <th scope="col" class="px-6 py-4 text-center">Size ({{ filesSize }} / 10 MB)</th>
                       <th scope="col" class="px-6 py-4 text-center">Action</th>
                     </tr>
                   </thead>
@@ -160,6 +160,7 @@ import axios from '../../config.js';
         description: '',
         category: null,
         isLessThenDay: false,
+        filesSize: null,
         files: [],
         errors: []
       };
@@ -188,6 +189,7 @@ import axios from '../../config.js';
             this.lastModifiedAt = response.data.task.lastModifiedAt;
             this.isLessThenDay = response.data.task.isLessThenDay;
             this.files = response.data.task.files;
+            this.filesSize = response.data.task.filesSize;
         })
         .catch(error => {
             const errors = [];
