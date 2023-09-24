@@ -3,6 +3,8 @@ import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import ConfirmAccountView from '../views/ConfirmAccountView.vue'
+import ResetPasswordRequestView from "../views/ResetPasswordRequestView.vue";
+import ResetPasswordView from "../views/ResetPasswordView.vue";
 
 import TaskTableComponent from "@/components/TaskTableComponent.vue";
 import CategoryTableComponent from "@/components/CategoryTableComponent.vue";
@@ -10,6 +12,7 @@ import CreateTaskComponent from "@/components/CreateTaskComponent.vue";
 import UpdateCategoryComponent from "@/components/UpdateCategoryComponent.vue";
 import UpdateTaskComponent from "@/components/UpdateTaskComponent.vue";
 import TaskViewComponent from "@/components/TaskViewComponent.vue";
+
 import test from "@/components/test.vue";
 
 const router = createRouter({
@@ -30,6 +33,16 @@ const router = createRouter({
       path: '/confirm-account',
       name: 'confirm-account',
       component: ConfirmAccountView
+    },
+    {
+      path: '/send-reset-password-request',
+      name: 'send-reset-password-request',
+      component: ResetPasswordRequestView
+    },
+    {
+      path: '/reset-password',
+      name: 'reset-password',
+      component: ResetPasswordView
     },
     {
       path: '/dashboard',

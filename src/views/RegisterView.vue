@@ -71,7 +71,7 @@
               :style="{ 'fontSize': formData.confirmedPassword ? '0.75rem' : '1rem', 'transform': formData.confirmedPassword ? 'translateY(-175%)' : 'none' }"
               @click="focusInput('confirmedPassword')"
             >
-              Confirmed Password
+              Confirmed password
             </label>
           </div>
         </div>
