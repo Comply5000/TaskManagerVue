@@ -107,6 +107,7 @@ export default {
         })
         .catch(error => {
           this.$refs.cogwheel.hide();
+          this.formData.password = '';
           const errors = [];
           handleErrors(error, errors);
           this.errors = this.errors.concat(errors);

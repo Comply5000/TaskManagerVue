@@ -140,6 +140,7 @@
         .then(response => {
             this.categoryData.name = response.data.taskCategory.name;
             this.categoryData.description = response.data.taskCategory.description;
+            this.categoryData.pageUrl = response.data.taskCategory.pageUrl;
         })
         .catch(error => {
             const errors = [];
