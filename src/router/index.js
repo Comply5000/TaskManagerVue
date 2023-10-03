@@ -12,6 +12,8 @@ import CreateTaskComponent from "@/components/CreateTaskComponent.vue";
 import UpdateCategoryComponent from "@/components/UpdateCategoryComponent.vue";
 import UpdateTaskComponent from "@/components/UpdateTaskComponent.vue";
 import TaskViewComponent from "@/components/TaskViewComponent.vue";
+import MyAccountComponent from "@/components/MyAccountComponent.vue";
+import ChangePasswordComponent from "@/components/ChangePasswordComponent.vue";
 
 import test from "@/components/test.vue";
 
@@ -56,6 +58,8 @@ const router = createRouter({
         { path: "create-task", component: CreateTaskComponent },
         { path: "update-category", component: UpdateCategoryComponent },
         { path: "update-task", component: UpdateTaskComponent },
+        { path: "my-account", component: MyAccountComponent },
+        { path: "change-password", component: ChangePasswordComponent },
       ],
     },
   ]
