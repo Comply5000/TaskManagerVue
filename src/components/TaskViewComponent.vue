@@ -36,7 +36,11 @@
         </div>
         <div class="mb-2"><b>Created At:</b> {{ createdAt ? formatDateWithHours(createdAt) : '' }}</div>
         <div class="mb-2"><b>Last Modified At:</b> {{ lastModifiedAt ? formatDateWithHours(lastModifiedAt) : '' }}</div>
-        <div class="mb-2"><b>Description:</b> {{ description ? description : '' }}</div>
+        <div class="mb-2"><b>Description:</b><br>
+          <div class="mb-1 ml-4">
+            <span v-html="description ? description.replace(/\n/g, '<br>') : ''"></span>
+          </div>
+        </div>
         <div class="mb-2">
             <b>Category</b>
             <p class="mb-1 ml-4">
