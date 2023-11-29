@@ -315,27 +315,18 @@ import axios from '../../config.js';
         axios({
           url: `/files/${file.id}`,
           method: 'GET',
-          responseType: 'arraybuffer', // Wskazujemy, że oczekujemy danych binarnych (pliku)
           headers: {
             'Authorization': `Bearer ${token}`
           }
         })
           .then(response => {
-
-            const contentType = response.headers['content-type'];
-            const blob = new Blob([response.data], { type: contentType });
-            const url = window.URL.createObjectURL(blob);
-
-            // Tworzymy element <a> do pobrania pliku
             const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', file.name); // Ustaw odpowiednią nazwę pliku
+            link.href = response.data.fileUrl;
+            console.log(response.data.fileName);
+            link.setAttribute('download', response.data.fileName); // Ustaw odpowiednią nazwę pliku
 
             // Klikamy na element <a>, aby rozpocząć pobieranie pliku
             link.click();
-
-            // Zwolnijmy zasoby
-            window.URL.revokeObjectURL(url);
           })
           .catch(error => {
             console.error('Błąd pobierania pliku:', error);
