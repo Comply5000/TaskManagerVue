@@ -54,6 +54,18 @@
         <div class="flex items-center">
           <div class="mb-2 text-2xl"><b>Files:</b></div>
           <div class="ml-auto">
+            <button
+              type="button"
+              @click="downloadFilesZip"
+              class="mr-2 ml-auto inline-block rounded bg-warning w-10 h-10 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#e4a11b] transition duration-150 ease-in-out hover:bg-warning-600 hover:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.3),0_4px_18px_0_rgba(228,161,27,0.2)] focus:bg-warning-600 focus:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.3),0_4px_18px_0_rgba(228,161,27,0.2)] focus:outline-none focus:ring-0 active:bg-warning-700 active:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.3),0_4px_18px_0_rgba(228,161,27,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(228,161,27,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.2),0_4px_18px_0_rgba(228,161,27,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.2),0_4px_18px_0_rgba(228,161,27,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.2),0_4px_18px_0_rgba(228,161,27,0.1)]"
+            >
+              <font-awesome-icon
+                icon="fa-solid fa-download"
+                style="color: #000000; text-align: center;"
+                size="2x"
+              />
+            </button>
+
             <input
               ref="fileInput"
               type="file"
@@ -68,7 +80,7 @@
               <font-awesome-icon
                 icon="fa fa-plus"
                 style="color: #000000; text-align: center;"
-                size="3x"
+                size="2x"
               />
             </button>
           </div>
@@ -332,6 +344,34 @@ import axios from '../../config.js';
             console.error('Błąd pobierania pliku:', error);
           });
       },
+      downloadFilesZip() {
+        const token = localStorage.getItem('jwt');
+
+        axios({
+          url: `/files/${this.id}/download-all`,
+          method: 'GET',
+          responseType: 'arraybuffer',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+          .then(response => {
+            const contentType = response.headers['content-type'];
+            const blob = new Blob([response.data], { type: contentType });
+            const url = window.URL.createObjectURL(blob);
+            // Tworzymy element <a> do pobrania pliku
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', this.name);
+
+            // Klikamy na element <a>, aby rozpocząć pobieranie pliku
+            link.click();
+            window.URL.revokeObjectURL(url);
+          })
+          .catch(error => {
+            console.error('Błąd pobierania pliku:', error);
+          });
+      }
     },
     mounted() {
       this.getTask();
