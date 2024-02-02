@@ -3,7 +3,7 @@
       <div class="mb-3">
           <div class="relative mb-4 flex w-full flex-wrap items-stretch bg-white rounded-lg shadow-md max-w-md mx-auto">
             <input
-              v-model="searchQuery"
+              v-model="filters.searchQuery"
               type="search"
               class="relative m-0 -mr-0.5 block w-[1px] min-w-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
               placeholder="Search"
@@ -35,33 +35,30 @@
             <label for="selectedStatus" class="text-gray-700 dark:text-white font-bold text-lg">Filters:</label>
             <select
               v-if="taskStatus.length"
-              v-model="selectedStatus"
-              @change="fetchData(1)"
+              v-model="filters.status"
               class="ml-4 w-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-              <option value="null" selected>Status</option>
+              <option value="" selected>Status</option>
               <option v-for="s in taskStatus" :key="s.id" :value="s.id">{{ s.name }}</option>
             </select>
             <div v-else>Loading...</div>
             <!--Priorytet-->
             <select
               v-if="taskPriority.length"
-              v-model="selectedPriority"
-              @change="fetchData(1)"
+              v-model="filters.priority"
               class="ml-4 w-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-              <option value="null" selected>Priority</option>
+              <option value="" selected>Priority</option>
               <option v-for="p in taskPriority" :key="p.id" :value="p.id">{{ p.name }}</option>
             </select>
             <div v-else>Loading...</div>
             <!-- Kategorie -->
             <select
               v-if="categories.length"
-              v-model="selectedCategory"
-              @change="fetchData(1)"
+              v-model="filters.category"
               class="mr-4 ml-4 w-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-              <option value="null" selected>Category</option>
+              <option value="" selected>Category</option>
               <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
             </select>
             <div v-else>Loading...</div>
@@ -71,8 +68,7 @@
             <label for="selectedOrderBy" class="mt-4 text-gray-700 dark:text-white font-bold text-lg">Order by:</label>
             <select
               v-if="orderBy.length"
-              v-model="selectedOrderBy"
-              @change="fetchData(1)"
+              v-model="filters.orderBy"
               class="mr-4 mt-4 ml-4 w-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option v-for="o in orderBy" :key="o.id" :value="o.id">{{ o.name }}</option>
@@ -84,8 +80,7 @@
               <input 
               type="checkbox"
               class="sr-only peer"
-              v-model="isOrderByDesc"
-              @change="fetchData(1)">
+              v-model="filters.isOrderByDesc">
               <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-gray-600"></div>
             </label>
 
@@ -255,55 +250,37 @@
         totalPages: 1,
         pageSize: 10, // Domyślna liczba elementów na stronie
         pageOptions: [5, 10, 25, 50, 100], 
-        searchQuery: null,
 
         taskStatus: [], // Tablica do przechowywania danych z endpointu
-        selectedStatus: null,
-
         taskPriority: [], // Tablica do przechowywania danych z endpointu
-        selectedPriority: null,
-
         categories: [],
-        selectedCategory: null,
-
         orderBy: [],
-        selectedOrderBy: 1,
-        isOrderByDesc: false
+
+        filters: {
+          searchQuery: '',
+          status: '',
+          priority: '',
+          category: '',
+          orderBy: 1,
+          isOrderByDesc: false
+        }
       };
     },
     watch: {
-      searchQuery(newValue) {
-        if (newValue === "") {
-          // Wykonaj dowolne operacje lub funkcje, które chcesz uruchomić, gdy wartość searchQuery będzie pusta.
-            this.fetchData(1)
-        }
-      },
-      selectedStatus(newValue) {
-        if (newValue === "null") {
-          this.selectedStatus = null;
-          this.fetchData(1)
-        } 
-      },
-      selectedPriority(newValue) {
-        if (newValue === "null") {
-          this.selectedPriority = null;
-          this.fetchData(1)
-        } 
-      },
-      selectedCategory(newValue) {
-        if (newValue === "null") {
-          this.selectedCategory = null;
-          this.fetchData(1)
-        } 
-      },
-      selectedOrderBy(newValue) {
-        if (newValue === "null") {
-          this.selectedOrderBy = null;
-          this.fetchData(1)
-        } 
-      },
+      filters: {
+        handler(newFilters, oldFilters) {
+          // Logika sprawdzająca, czy filtr został zmieniony na wartość, która wymaga odświeżenia danych
+          // Możesz sprawdzić konkretnie, które filtry się zmieniły, jeśli jest to potrzebne
+          this.saveFiltersToLocalStorage();
+          this.fetchData(1);
+        },
+        deep: true // Umożliwia głębokie obserwowanie obiektu
+      }
     },
     methods: {
+      saveFiltersToLocalStorage() {
+        localStorage.setItem('filters', JSON.stringify(this.filters));
+      },
       fetchCategories(){
         const token = localStorage.getItem('jwt');
         axios.get(`/task-categories`, {
@@ -328,7 +305,6 @@
         })
         .then(response => {
           this.orderBy = response.data;
-          this.selectedOrderBy = this.orderBy[0].id;
         })
         .catch(error => {
           console.error('Błąd pobierania danych:', error);
@@ -372,12 +348,12 @@
           params: {
             pageNumber: pageNumber,
             pageSize: this.pageSize,
-            search: (this.searchQuery || '').trim(),
-            categoryId: this.selectedCategory,
-            status: this.selectedStatus,
-            priority: this.selectedPriority,
-            orderBy: this.selectedOrderBy,
-            isOrderByDesc: this.isOrderByDesc
+            search: (this.filters.searchQuery || '').trim(),
+            categoryId: this.filters.category,
+            status: this.filters.status,
+            priority: this.filters.priority,
+            orderBy: this.filters.orderBy,
+            isOrderByDesc: this.filters.isOrderByDesc
           },
           headers: {
             'Authorization': `Bearer ${token}`
@@ -473,16 +449,21 @@
         }
       },
       clearFilters(){
-        this.searchQuery = null;
-        this.selectedCategory = null;
-        this.selectedStatus = null;
-        this.selectedPriority = null;
-        this.selectedOrderBy = 1;
-        this.isOrderByDesc = false;
-        this.fetchData(1);
+        this.filters = {
+          query: null,
+          status: '',
+          priority: '',
+          category: '',
+          orderBy: 1,
+          isOrderByDesc: false
+        };
       },
     },
     mounted() {
+      const savedFilters = localStorage.getItem('filters');
+      if (savedFilters) {
+        this.filters = JSON.parse(savedFilters);
+      }
       this.fetchData(this.currentPage);
       this.fetchStatus();
       this.fetchPriority();
