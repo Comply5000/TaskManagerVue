@@ -182,6 +182,7 @@
     
     <script>
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+    import axios from '../../config.js';
       import {
         Collapse,
         Dropdown,
@@ -195,11 +196,20 @@
       },
       methods: {
         logout() {
-          // Czyszczenie tokenu dostępu lub innych danych w localStorage
-          localStorage.clear();
-          
-          // Przekierowanie do widoku logowania
-          this.$router.push('/');
+          const token = localStorage.getItem('jwt');
+          axios.post(`/account/sign-out`, {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            })
+            .then(response => {
+              localStorage.clear();
+              this.$router.push('/');
+            })
+            .catch(error => {
+              localStorage.clear();
+              this.$router.push('/');
+            });
         }
       }
     };
