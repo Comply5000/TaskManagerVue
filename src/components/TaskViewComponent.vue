@@ -271,16 +271,20 @@ import axios from '../../config.js';
         {
           const token = localStorage.getItem('jwt');
 
+          this.$refs.cogwheel.show(); 
+
           axios.delete(`/files/${fileId}`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
           })
           .then(response => {
+            this.$refs.cogwheel.hide();
             this.getTask();
             this.$store.dispatch('showMessage', { message: 'File deleted successfully.'});
           })
           .catch(error => {
+            this.$refs.cogwheel.hide();
             console.error('Błąd pobierania danych:', error);
           });
         }
@@ -322,6 +326,7 @@ import axios from '../../config.js';
       },
       downloadFile(file) {
         const token = localStorage.getItem('jwt');
+        this.$refs.cogwheel.show(); 
 
         // Wykonaj żądanie GET na endpoint, który zwraca plik na podstawie fileId
         axios({
@@ -339,13 +344,16 @@ import axios from '../../config.js';
 
             // Klikamy na element <a>, aby rozpocząć pobieranie pliku
             link.click();
+            this.$refs.cogwheel.hide();
           })
           .catch(error => {
+            this.$refs.cogwheel.hide();
             console.error('Błąd pobierania pliku:', error);
           });
       },
       downloadFilesZip() {
         const token = localStorage.getItem('jwt');
+        this.$refs.cogwheel.show(); 
 
         axios({
           url: `/files/${this.id}/download-all`,
@@ -356,6 +364,7 @@ import axios from '../../config.js';
           }
         })
           .then(response => {
+            this.$refs.cogwheel.hide();
             const contentType = response.headers['content-type'];
             const blob = new Blob([response.data], { type: contentType });
             const url = window.URL.createObjectURL(blob);
@@ -369,6 +378,7 @@ import axios from '../../config.js';
             window.URL.revokeObjectURL(url);
           })
           .catch(error => {
+            this.$refs.cogwheel.hide();
             console.error('Błąd pobierania pliku:', error);
           });
       }
