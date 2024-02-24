@@ -32,7 +32,7 @@
     },
     methods: {
         redirectToDashboard() {
-            this.$router.push('/dashboard');
+          this.$router.push('/');
         }
     },
     mounted(){

@@ -1,0 +1,7 @@
+version: '3.9'
+
+services:
+  vue_app:
+    image: comply5000/task-manager-vue:latest
+    ports:
+      - "5001:80"
