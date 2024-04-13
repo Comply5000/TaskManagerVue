@@ -332,15 +332,24 @@ import axios from '../../config.js';
         axios({
           url: `/files/${file.id}`,
           method: 'GET',
+          responseType: 'json',
           headers: {
             'Authorization': `Bearer ${token}`
           }
         })
           .then(response => {
+            const { contentType, fileDownloadName, fileContents } = response.data;
+            // Konwertuj zawartość pliku z Base64 na Blob
+            const blob = this.base64ToBlob(fileContents, contentType);
+            // Utwórz URL z bloba
+            const url = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
-            link.href = response.data.fileUrl;
-            console.log(response.data.fileName);
-            link.setAttribute('download', response.data.fileName); // Ustaw odpowiednią nazwę pliku
+            link.href = url;
+            link.setAttribute('download', fileDownloadName); // Ustaw nazwę pliku z odpowiedzi
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link); // Opcjonalnie: Usuń link po pobraniu
+            window.URL.revokeObjectURL(url); // Oczyść zasoby użyte do pobierania pliku
 
             // Klikamy na element <a>, aby rozpocząć pobieranie pliku
             link.click();
@@ -350,6 +359,22 @@ import axios from '../../config.js';
             this.$refs.cogwheel.hide();
             console.error('Błąd pobierania pliku:', error);
           });
+      },
+      base64ToBlob(base64, mimeType) {
+          const byteCharacters = atob(base64);
+          const byteArrays = [];
+
+          for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+            const slice = byteCharacters.slice(offset, offset + 512);
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+              byteNumbers[i] = slice.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+          }
+
+          return new Blob(byteArrays, {type: mimeType});
       },
       downloadFilesZip() {
         const token = localStorage.getItem('jwt');
