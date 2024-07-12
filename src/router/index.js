@@ -1,10 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import LoginView from '../views/LoginView.vue'
-import RegisterView from '../views/RegisterView.vue'
-import DashboardView from '../views/DashboardView.vue'
-import ConfirmAccountView from '../views/ConfirmAccountView.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import LoginView from "../views/LoginView.vue";
+import RegisterView from "../views/RegisterView.vue";
+import DashboardView from "../views/DashboardView.vue";
+import ConfirmAccountView from "../views/ConfirmAccountView.vue";
 import ResetPasswordRequestView from "../views/ResetPasswordRequestView.vue";
 import ResetPasswordView from "../views/ResetPasswordView.vue";
+import GoogleLoginResponseView from "../views/GoogleLoginResponseView.vue";
 
 import TaskTableComponent from "@/components/TaskTableComponent.vue";
 import CategoryTableComponent from "@/components/CategoryTableComponent.vue";
@@ -15,46 +16,49 @@ import TaskViewComponent from "@/components/TaskViewComponent.vue";
 import MyAccountComponent from "@/components/MyAccountComponent.vue";
 import ChangePasswordComponent from "@/components/ChangePasswordComponent.vue";
 
-import test from "@/components/test.vue";
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'login',
+      path: "/",
+      name: "login",
       component: LoginView,
-      props: true
+      props: true,
     },
     {
-      path: '/register',
-      name: 'register',
-      component: RegisterView
+      path: "/register",
+      name: "register",
+      component: RegisterView,
     },
     {
-      path: '/confirm-account',
-      name: 'confirm-account',
-      component: ConfirmAccountView
+      path: "/confirm-account",
+      name: "confirm-account",
+      component: ConfirmAccountView,
     },
     {
-      path: '/send-reset-password-request',
-      name: 'send-reset-password-request',
-      component: ResetPasswordRequestView
+      path: "/send-reset-password-request",
+      name: "send-reset-password-request",
+      component: ResetPasswordRequestView,
     },
     {
-      path: '/reset-password',
-      name: 'reset-password',
-      component: ResetPasswordView
+      path: "/reset-password",
+      name: "reset-password",
+      component: ResetPasswordView,
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
+      path: "/google-response",
+      name: "google-response",
+      component: GoogleLoginResponseView,
+    },
+    {
+      path: "/dashboard",
+      name: "dashboard",
       component: DashboardView,
       meta: { requiresAuth: true },
       children: [
         { path: "", component: TaskTableComponent },
         { path: "categories", component: CategoryTableComponent },
-        { path: "task", component: TaskViewComponent }, 
+        { path: "task", component: TaskViewComponent },
         { path: "create-task", component: CreateTaskComponent },
         { path: "update-category", component: UpdateCategoryComponent },
         { path: "update-task", component: UpdateTaskComponent },
@@ -62,17 +66,17 @@ const router = createRouter({
         { path: "change-password", component: ChangePasswordComponent },
       ],
     },
-  ]
-})
+  ],
+});
 
 router.beforeEach((to, from, next) => {
-  const isLoggedIn = localStorage.getItem('jwt');
-  if (to.matched.some(record => record.meta.requiresAuth) && !isLoggedIn) {
+  const isLoggedIn = localStorage.getItem("jwt");
+  if (to.matched.some((record) => record.meta.requiresAuth) && !isLoggedIn) {
     // Jeśli użytkownik nie jest zalogowany i próbuje wejść na chroniony widok, przekierowujemy go na stronę logowania
-    next('/');
+    next("/");
   } else {
     next();
   }
 });
 
-export default router
+export default router;
