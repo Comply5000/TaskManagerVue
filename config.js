@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
 // Konfiguracja globalna Axios
-axios.defaults.baseURL = "https://api-taskmanager.comply.ovh/api"; // Adres URL serwera API
+axios.defaults.baseURL = 'https://api-taskmanager.comply.ovh/api'; // Adres URL serwera API
 //axios.defaults.baseURL = 'https://localhost:7166/api';
 //axios.defaults.baseURL = 'http://localhost:5203/api';
 axios.defaults.withCredentials = true; // Ustawienie withCredentials na true
@@ -9,15 +9,15 @@ axios.defaults.withCredentials = true; // Ustawienie withCredentials na true
 function refreshToken() {
   return new Promise((resolve, reject) => {
     axios
-      .post("/account/refresh-token")
+      .post('/account/refresh-token')
       .then((response) => {
-        localStorage.setItem("jwt", response.data.accessToken);
-        console.log("Token odświeżony. Wracamy do gry.");
+        localStorage.setItem('jwt', response.data.accessToken);
+        console.log('Token odświeżony. Wracamy do gry.');
         resolve(response.data.accessToken);
       })
       .catch((error) => {
         console.error(
-          "Nie mogłem odświeżyć tokenu, wypad na stronę logowania.",
+          'Nie mogłem odświeżyć tokenu, wypad na stronę logowania.',
           error
         );
         reject(error);
@@ -52,8 +52,9 @@ axios.interceptors.response.use(
             onRefreshed(newToken); // Wywołaj callbacki dla subskrybentów z nowym tokenem
           })
           .catch((refreshError) => {
-            console.error("Nie udało się odświeżyć tokenu.", refreshError);
-            window.location.href = "/login"; // Przekierowanie na stronę logowania
+            console.error('Nie udało się odświeżyć tokenu.');
+            localStorage.clear();
+            window.location.href = '/'; // Przekierowanie na stronę logowania
           });
       }
 
@@ -61,7 +62,7 @@ axios.interceptors.response.use(
       return new Promise((resolve) => {
         subscribeTokenRefresh((newToken) => {
           // Uaktualnij token w nagłówku żądania
-          originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
+          originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
           resolve(axios(originalRequest)); // Ponów żądanie z nowym tokenem
         });
       });

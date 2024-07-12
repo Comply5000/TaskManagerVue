@@ -4,7 +4,7 @@
       <div class="bg-white rounded-lg shadow-lg pt-4 pr-4 pl-4">
         <form @submit.prevent="addCategory">
           <div
-            class="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0 pb-4"
+            class="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0"
           >
             <div class="relative flex-1">
               <input
@@ -71,7 +71,7 @@
             </button>
           </div>
         </form>
-        <div v-if="errors" class="mt-6">
+        <div v-if="errors" class="mt-4 pb-2">
           <ul class="error-list">
             <li
               v-for="errorMsg in errors"
