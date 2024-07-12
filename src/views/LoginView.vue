@@ -122,9 +122,9 @@
 </template>
 
 <script>
-import axios from "../../config.js";
-import LoadingComponent from "@/components/LoadingComponent.vue";
-import { handleErrors } from "../../errorHandler.js";
+import axios from '../../config.js';
+import LoadingComponent from '@/components/LoadingComponent.vue';
+import { handleErrors } from '../../errorHandler.js';
 
 export default {
   components: {
@@ -133,17 +133,17 @@ export default {
   data() {
     return {
       formData: {
-        emailOrUserName: "",
-        password: "",
+        emailOrUserName: '',
+        password: '',
       },
       errors: [],
-      message: "",
+      message: '',
     };
   },
   methods: {
     loginWithGoogle() {
       window.location.href =
-        "https://api-taskmanager.comply.ovh/api/account/signin-google";
+        'https://api-taskmanager.comply.ovh/api/account/signin-google';
     },
     submitForm() {
       this.errors = [];
@@ -152,12 +152,12 @@ export default {
         .post(`/account/sign-in`, this.formData)
         .then((response) => {
           this.$refs.cogwheel.hide();
-          localStorage.setItem("jwt", response.data.accessToken);
-          this.$router.push("/dashboard");
+          localStorage.setItem('jwt', response.data.accessToken);
+          this.$router.push('/dashboard');
         })
         .catch((error) => {
           this.$refs.cogwheel.hide();
-          this.formData.password = "";
+          this.formData.password = '';
           const errors = [];
           handleErrors(error, errors);
           this.errors = this.errors.concat(errors);
@@ -168,28 +168,28 @@ export default {
     },
   },
   mounted() {
-    this.message = localStorage.getItem("registerMessage") || "";
-    localStorage.removeItem("registerMessage");
+    this.message = localStorage.getItem('registerMessage') || '';
+    localStorage.removeItem('registerMessage');
     setTimeout(() => {
-      this.message = "";
+      this.message = '';
     }, 8000);
 
-    this.error = localStorage.getItem("message");
-    localStorage.removeItem("message");
+    this.error = localStorage.getItem('message');
+    localStorage.removeItem('message');
     setTimeout(() => {
-      this.error = "";
+      this.error = '';
     }, 5000);
   },
 };
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 body {
   margin: 0;
@@ -213,7 +213,7 @@ body {
   box-sizing: border-box;
   color: #1f1f1f;
   cursor: pointer;
-  font-family: "Roboto", arial, sans-serif;
+  font-family: 'Roboto', arial, sans-serif;
   font-size: 14px;
   height: 40px;
   letter-spacing: 0.25px;
@@ -256,7 +256,7 @@ body {
 .gsi-material-button .gsi-material-button-contents {
   -webkit-flex-grow: 1;
   flex-grow: 1;
-  font-family: "Roboto", arial, sans-serif;
+  font-family: 'Roboto', arial, sans-serif;
   font-weight: 500;
   overflow: hidden;
   text-overflow: ellipsis;
